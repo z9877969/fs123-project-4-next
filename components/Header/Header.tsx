@@ -1,23 +1,29 @@
+import Image from "next/image";
 import Link from "next/link";
 import css from "./Header.module.css";
-import AuthNavigation from "../AuthNavigation/AuthNavigation";
+import HeaderNav from "./HeaderNav";
+
 const Header = () => {
   return (
     <header className={css.header}>
-      <Link href="/" aria-label="Home">
-        NoteHub
-      </Link>
-      <nav aria-label="Main Navigation">
-        <ul className={css.navigation}>
-          <li>
-            <Link href="/">Home</Link>
-          </li>
-          <li>
-            <Link href="/notes/filter/all">Notes</Link>
-          </li>
-          <AuthNavigation />
-        </ul>
-      </nav>
+      <div className={css.inner}>
+        <Link
+          href="/"
+          aria-label="Tasteorama — home"
+          className={css.logoLink}
+          prefetch={false}
+        >
+          <Image
+            src="/logo.svg"
+            alt=""
+            width={165}
+            height={46}
+            priority
+            className={css.logo}
+          />
+        </Link>
+        <HeaderNav />
+      </div>
     </header>
   );
 };
