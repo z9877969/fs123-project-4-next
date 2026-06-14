@@ -3,13 +3,13 @@
 import { strict } from 'assert';
 import { Formik, Form, Field } from 'formik';
 
-// import { useId } from 'react';
+import { useId } from 'react';
 
 interface Props {
-  ingredients: { id: string, name: string }[];
+  ingredients: { id: string, name: string };
 }
 
-const validationSchema = yupToFormErrors.object({});
+const validationSchema = yup.object({});
 
 const initialValues = {
   recipeTitle: '',
@@ -23,7 +23,7 @@ const initialValues = {
 };
 
 export default function addRecipeForm({ ingredients }: Props) {
-  const fieldId = userId();
+  const fieldId = useId();
 
 
   return (
@@ -35,41 +35,56 @@ export default function addRecipeForm({ ingredients }: Props) {
       <Form>
         <section>
           <h3>General Information</h3>
+
+          <label htmlFor={`${fieldId}-recipeTitle`}>Recipe Title</label>
           <Field
             name="recipeTitle"
+            id={`${fieldId}-recipeTitle`}
             type="text"
             placeholder="Enter the name of your recipe"
           />
+
+          <label htmlFor={`${fieldId}-recipeDescription`}>Recipe Description</label>
           <Field
             name="recipeDescription"
+            id={`${fieldId}-recipeDescription`}
             type="text"
             as="textarea"
             placeholder="Enter a brief description of your recipe"
           />
-          <Field name="cookingTime" type="number" />
-          <Field name="calories" type="number" />
-          <Field name="category" as="select" />
+
+          <label htmlFor={`${fieldId}-cookingTime`}>Cooking time in minutes</label>
+          <Field name="cookingTime" id={`${fieldId}-cookingTime`} type="number" />
+
+          <label htmlFor={`${fieldId}-calories`}>Calories</label>
+          <Field name="calories" id={`${fieldId}-calories`} type="number" />
+
+          <label htmlFor={`${fieldId}-category`}>Category</label>
+          <Field name="category" id={`${fieldId}-category`} as="select" />
 
           <h3>Ingredients</h3>
-          <Field name="nameIngredients" as="select">
-            {
+          <label htmlFor={`${fieldId}-nameIngredients`}>Name</label>
+          <Field name="nameIngredients" id={`${fieldId}-nameIngredients`} as="select">
+            { //тут випадаючий спиоск інгредієнтів з БД
               ingredients.map( //це рендеримо за допомогою пропсів, інфа в пропс передається
-                            // з app\(private routes)\add-recipe\page.tsx
-          // <option value="">1</option>
-          // <option value="morning">12</option>
-          // <option value="afternoon">15</option>
+                // з app\(private routes)\add-recipe\page.tsx
+                // <option value="">1</option>
+                // <option value="morning">12</option>
+                // <option value="afternoon">15</option>
               ) //Потрібно дописати  )
             }
           </Field>
-          <Field name="amount" type="text" />
+
+          <label htmlFor={`${fieldId}-amount`}>Amount</label>
+          <Field name="amount" id={`${fieldId}-amount`} type="text" />
 
           <button type="button" onClick={'handleFunction'}>Add new Ingredient
           </button>
-          <table>
-            <h3>
-              Тут має бути табличка яка буде відоображити список інгерієнтів{' '}
-            </h3>
-          </table>
+
+          
+          <FieldArray name="ingredients">
+{/* Тут має відоображатись список інгредієнтів які ми додали в полях вище  */}
+          </FieldArray>
 
           <h3>Instructions</h3>
           <Field
