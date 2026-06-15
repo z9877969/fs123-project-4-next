@@ -22,6 +22,7 @@ export default function RootLayout({
             <main>
               {children}
             </main>
+            <Footer />
           </AuthProvider>
         </TanStackProvider>
       </body>
