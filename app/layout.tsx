@@ -1,11 +1,10 @@
-import TanStackProvider from "@/components/TanStackProvider/TanStackProvider";
-import type { Metadata } from "next";
-import "./globals.css";
-import Header from "@/components/Header/Header";
-import Footer from "@/components/Footer/Footer";
-import { Roboto } from "next/font/google";
-import AuthProvider from "@/components/AuthProvider/AuthProvider";
-
+import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
+import type { Metadata } from 'next';
+import './globals.css';
+import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
+import { montserrat, dmSans } from '@/app/fonts';
+import AuthProvider from '@/components/AuthProvider/AuthProvider';
 
 export default function RootLayout({
   children,
@@ -16,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={roboto.variable}>
+      <body className={`${montserrat.variable} ${dmSans.variable}`}>
         <TanStackProvider>
           <AuthProvider>
             <Header />
