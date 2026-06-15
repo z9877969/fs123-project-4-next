@@ -43,7 +43,7 @@ const HeaderNav = () => {
     } finally {
       clearIsAuthenticated();
       setIsOpen(false);
-      router.push("/sign-in");
+      router.push("/");
     }
   };
 

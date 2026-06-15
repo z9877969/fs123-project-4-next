@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import css from "./Footer.module.css";
+import FooterAccountLink from "./FooterAccountLink";
 
 const Footer = () => {
   return (
@@ -33,9 +34,7 @@ const Footer = () => {
               </Link>
             </li>
             <li className={css.item}>
-              <Link href="/profile" className={css.link} prefetch={false}>
-                Account
-              </Link>
+              <FooterAccountLink />
             </li>
           </ul>
         </nav>
