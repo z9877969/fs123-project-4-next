@@ -1,165 +1,174 @@
-.form {
-  display: flex;
-  gap: 32px;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 32px 16px;
+/* ─── Mobile adaptive (від 393px) ─── */
+@media screen and (min-width: 393px) {
+  .form {
+    display: flex;
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 16px;
+  }
+
+  .mainSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .photoSection {
+    width: 220px;
+    flex-shrink: 0;
+  }
+
+  .sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 8px 0 4px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+  }
+
+  .input,
+  .textarea,
+  .select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d0d0d0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1a1a1a;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+
+  .input:focus,
+  .textarea:focus,
+  .select:focus {
+    border-color: #4caf50;
+  }
+
+  .textarea {
+    min-height: 90px;
+    resize: vertical;
+  }
+
+  .ingredientRow {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+  }
+
+  .ingredientRow .input,
+  .ingredientRow .select {
+    flex: 1;
+  }
+
+  .ingredientList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .ingredientItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    background: #f4f4f4;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  .ingredientItem span {
+    flex: 1;
+    color: #333;
+  }
+
+  .btnSecondary {
+    padding: 8px 16px;
+    border: 1px solid #4caf50;
+    border-radius: 8px;
+    background: #fff;
+    color: #4caf50;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .btnSecondary:hover {
+    background: #f0faf0;
+  }
+
+  .btnDanger {
+    padding: 4px 10px;
+    border: 1px solid #e57373;
+    border-radius: 6px;
+    background: #fff;
+    color: #e57373;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .btnDanger:hover {
+    background: #fff5f5;
+  }
+
+  .btnPrimary {
+    width: 100%;
+    padding: 12px;
+    background: #4caf50;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+  }
+
+  .btnPrimary:hover {
+    background: #43a047;
+  }
+
+  .photoUpload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 220px;
+    border: 2px dashed #c8e6c9;
+    border-radius: 12px;
+    background: #f9fef9;
+    cursor: pointer;
+    color: #888;
+    font-size: 13px;
+    text-align: center;
+    gap: 8px;
+  }
 }
 
-.mainSection {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+/* ─── Tablet (від 768px) ─── */
+@media screen and (min-width: 768px) {}
 
-.photoSection {
-  width: 220px;
-  flex-shrink: 0;
-}
-
-.sectionTitle {
-  font-size: 18px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin: 8px 0 4px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.fieldGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.label {
-  font-size: 13px;
-  font-weight: 500;
-  color: #555;
-}
-
-.input,
-.textarea,
-.select {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #d0d0d0;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #1a1a1a;
-  background: #fff;
-  outline: none;
-  transition: border-color 0.2s;
-  box-sizing: border-box;
-}
-
-.input:focus,
-.textarea:focus,
-.select:focus {
-  border-color: #4caf50;
-}
-
-.textarea {
-  min-height: 90px;
-  resize: vertical;
-}
-
-.ingredientRow {
-  display: flex;
-  gap: 12px;
-  align-items: flex-end;
-}
-
-.ingredientRow .input,
-.ingredientRow .select {
-  flex: 1;
-}
-
-.ingredientList {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 4px;
-}
-
-.ingredientItem {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
-  background: #f4f4f4;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.ingredientItem span {
-  flex: 1;
-  color: #333;
-}
-
-.btnSecondary {
-  padding: 8px 16px;
-  border: 1px solid #4caf50;
-  border-radius: 8px;
-  background: #fff;
-  color: #4caf50;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-  white-space: nowrap;
-}
-
-.btnSecondary:hover {
-  background: #f0faf0;
-}
-
-.btnDanger {
-  padding: 4px 10px;
-  border: 1px solid #e57373;
-  border-radius: 6px;
-  background: #fff;
-  color: #e57373;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.btnDanger:hover {
-  background: #fff5f5;
-}
-
-.btnPrimary {
-  width: 100%;
-  padding: 12px;
-  background: #4caf50;
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-top: 8px;
-}
-
-.btnPrimary:hover {
-  background: #43a047;
-}
-
-.photoUpload {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 220px;
-  border: 2px dashed #c8e6c9;
-  border-radius: 12px;
-  background: #f9fef9;
-  cursor: pointer;
-  color: #888;
-  font-size: 13px;
-  text-align: center;
-  gap: 8px;
-}
+/* ─── Desktop (від 1440px) ─── */
+@media screen and (min-width: 1440px) {}
