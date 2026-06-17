@@ -1,14 +1,14 @@
-"use client";
-import { useRouter } from "next/navigation";
-import css from "./SignUpPage.module.css";
-import { useState } from "react";
-import { register, RegisterRequest } from "@/lib/api/clientApi";
-import { useAuthStore } from "@/lib/store/authStore";
-import { ApiError } from "@/app/api/api";
+'use client';
+import { useRouter } from 'next/navigation';
+import css from './RegisterPage.module.css';
+import { useState } from 'react';
+import { register, RegisterRequest } from '@/lib/api/clientApi';
+import { useAuthStore } from '@/lib/store/authStore';
+import { ApiError } from '@/app/api/api';
 
-export default function Signup() {
+export default function Register() {
   const router = useRouter();
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const setUser = useAuthStore((state) => state.setUser);
 
@@ -19,15 +19,15 @@ export default function Signup() {
       const res = await register(formValues);
       if (res) {
         setUser(res);
-        router.push("/profile");
+        router.push('/profile');
       } else {
-        setError("Invalid email or password");
+        setError('Invalid email or password');
       }
     } catch (error) {
       setError(
         (error as ApiError).response?.data?.error ??
           (error as ApiError).message ??
-          "Oops... some error",
+          'Oops... some error'
       );
     }
   };

@@ -62,7 +62,7 @@ const FooterAccountLink = () => {
             </p>
             <div className={css.modalActions}>
               <Link
-                href="/sign-in"
+                href="/auth/login"
                 className={css.modalAction}
                 onClick={() => setIsOpen(false)}
                 prefetch={false}
@@ -70,7 +70,7 @@ const FooterAccountLink = () => {
                 Log in
               </Link>
               <Link
-                href="/sign-up"
+                href="/auth/register"
                 className={css.modalActionPrimary}
                 onClick={() => setIsOpen(false)}
                 prefetch={false}

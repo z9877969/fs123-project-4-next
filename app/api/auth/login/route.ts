@@ -19,11 +19,15 @@ export async function POST(req: NextRequest) {
         const parsed = parse(cookieStr);
         const options = {
           expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
-          path: parsed.Path,
+          path: parsed.path,
           maxAge: Number(parsed['Max-Age']),
         };
-        if (parsed.accessToken) cookieStore.set('accessToken', parsed.accessToken, options);
-        if (parsed.refreshToken) cookieStore.set('refreshToken', parsed.refreshToken, options);
+        if (parsed.accessToken)
+          cookieStore.set('accessToken', parsed.accessToken, options);
+        if (parsed.refreshToken)
+          cookieStore.set('refreshToken', parsed.refreshToken, options);
+        if (parsed.sessionId)
+          cookieStore.set('sessionId', parsed.sessionId, options);
       }
 
       return NextResponse.json(apiRes.data, { status: apiRes.status });
@@ -35,10 +39,13 @@ export async function POST(req: NextRequest) {
       logErrorResponse(error.response?.data);
       return NextResponse.json(
         { error: error.message, response: error.response?.data },
-        { status: error.status }
+        { status: error.response?.status || 502 }
       );
     }
     logErrorResponse({ message: (error as Error).message });
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
   }
 }
