@@ -53,18 +53,18 @@ const HeaderNav = () => {
   const guestLinks = (
     <>
       <li className={css.item}>
-        <Link href="/recipes" className={css.link} prefetch={false}>
+        <Link href="/recipes/filter/all" className={css.link} prefetch={false}>
           Recipes
         </Link>
       </li>
       <li className={css.item}>
-        <Link href="/sign-in" className={css.link} prefetch={false}>
+        <Link href="/auth/login" className={css.link} prefetch={false}>
           Log in
         </Link>
       </li>
       <li className={css.item}>
         <Link
-          href="/sign-up"
+          href="/auth/register"
           className={`${css.link} ${css.cta}`}
           prefetch={false}
         >
@@ -77,7 +77,7 @@ const HeaderNav = () => {
   const authLinks = (
     <>
       <li className={css.item}>
-        <Link href="/recipes" className={css.link} prefetch={false}>
+        <Link href="/recipes/filter/all" className={css.link} prefetch={false}>
           Recipes
         </Link>
       </li>
