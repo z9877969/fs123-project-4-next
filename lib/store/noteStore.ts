@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { NewNoteContent } from "@/types/note";
+import { NewNoteContent } from "@/types/recipe";
 import { persist } from "zustand/middleware";
 
 type NoteDraftStore = {

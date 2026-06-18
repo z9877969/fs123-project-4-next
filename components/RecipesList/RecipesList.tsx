@@ -1,10 +1,10 @@
-'use client'
-import css from '@/components/RecipesList/RecipesList.module.css'
+import css from './RecipesList.module.css'
 import { useState } from "react";
-import RecipeCard from "@/components/RecipeCard/RecipeCard"; 
-import LoadMoreBtn from '@/components/LoadMoreBtn/LoadMoreBtn';
+import RecipeCard from "../RecipeCard/RecipeCard"; 
+import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import { fetchRecipes } from '@/lib/api/clientApi';
 import { Recipe } from '@/types/recipe';
+import iziToast from "izitoast";
 
 interface RecipeListProps {
   initialRecipes: Recipe[];
@@ -14,7 +14,7 @@ interface RecipeListProps {
   currentCategory?: string; 
 }
 
-export default function RecipesList({
+export default function RecipeList({
   initialRecipes,
   totalPages,
   totalRecipes,
@@ -40,13 +40,12 @@ export default function RecipesList({
       
       setPage(nextPage);
     } catch (error) {
-        const iziToast = (await import("izitoast")).default;
-
-  iziToast.error({
-    title: "Error",
-    message: "Failed to load more recipes. Please try again later.",
-    position: "topRight",
-  });
+        iziToast.error({
+        title: "Error",
+        message: "Failed to load more recipes. Please try again later.",
+        position: "topRight", 
+        timeout: 2000,    
+      });
     } finally {
       setIsLoading(false);
     }
@@ -70,7 +69,7 @@ export default function RecipesList({
       <ul className={css.grid}>
         {recipes.map((recipe) => (
           <li key={recipe.id} className={css.gridItem}>
-            {/* <RecipeCard recipe={recipe} /> */}
+            <RecipeCard recipe={recipe} />
           </li>
         ))}
       </ul>
