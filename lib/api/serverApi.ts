@@ -28,6 +28,7 @@ export const getServerMe = async (): Promise<User> => {
 
 interface FetchServerParams {
   page: number;
+  perPage: number;
   search?: string;
   category?: string;
 }

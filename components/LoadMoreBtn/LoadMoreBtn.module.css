@@ -1,4 +1,5 @@
 .button{
+    font-family: var(--font-montserrat), sans-serif;
     border-radius: 8px;
     padding: 16px;
     width: 372px;
@@ -9,4 +10,23 @@
     background-color: #9b6c43;
     border-color: transparent;
     display: block;
+    margin: 24px auto 0;
+    transition: background-color 200ms ease;
+}
+.button:hover, .button:focus{
+    background-color: #6d554b;
+}
+.button:active{
+    border-radius: 8px;
+    border-color: #fff;
+}
+@media (min-width: 768px) {
+    .button{
+      width: 338px;
+    }
+}
+@media (min-width: 1440px) {
+  .button{
+      width: 289px;
+    }
 }

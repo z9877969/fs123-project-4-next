@@ -68,7 +68,7 @@ export default function RecipeList({
 
       <ul className={css.grid}>
         {recipes.map((recipe) => (
-          <li key={recipe.id} className={css.gridItem}>
+          <li key={recipe._id} className={css.gridItem}>
             <RecipeCard recipe={recipe} />
           </li>
         ))}
