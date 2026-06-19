@@ -1,5 +1,5 @@
 import AddRecipeForm from '@/components/AddRecipeForm/AddRecipeForm';
-import { getIngredients } from '@/lib/api/ingredients'; // TODO: створити цей файл
+import { getIngredients } from '@/lib/api/ingredientsApi'; // TODO: створити цей файл
 
 export default async function AddRecipePage() {
   const ingredients = await getIngredients().catch(() => []);
