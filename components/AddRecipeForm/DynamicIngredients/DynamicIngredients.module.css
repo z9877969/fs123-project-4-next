@@ -170,7 +170,8 @@
     height: 16px;
     display: block;
     fill: none;
-    stroke: #C80000;
+    stroke: currentColor;
+    pointer-events: none;
 }
 
 /* tablet */
@@ -195,11 +196,10 @@
         grid-template-columns: 1fr 1fr auto;
     }
 
-    .removeButton {
-        grid-column: auto;
-        width: auto;
-        min-width: 80px;
-    }
+        .removeButton {
+            width: 24px;
+            height: 24px;
+        }
 }
 
 /* desktop */

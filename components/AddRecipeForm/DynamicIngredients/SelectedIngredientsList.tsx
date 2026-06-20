@@ -15,6 +15,7 @@ export default function SelectedIngredientsList({
       <div className={s.listHeader}>
         <span>Name:</span>
         <span>Amount:</span>
+        <span className={s.actionHeader}>Action</span>
       </div>
 
       <ul className={s.ingredientList}>
