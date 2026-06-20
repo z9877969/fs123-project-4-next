@@ -106,7 +106,7 @@
 
 .listHeader {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 24px;
     gap: 16px;
     padding-bottom: 8px;
     border-bottom: 1px solid #d9d9d9;
@@ -114,6 +114,10 @@
     line-height: 1.4;
     font-weight: 700;
     color: #000;
+}
+
+.actionHeader {
+    font-size: 0;
 }
 
 .ingredientList {
@@ -126,7 +130,7 @@
 
 .ingredientItem {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 24px;
     gap: 16px;
     align-items: center;
     padding: 12px 0;
@@ -141,27 +145,32 @@
 }
 
 .removeButton {
-    grid-column: 1 / -1;
-    width: 100%;
-    min-height: 40px;
-    padding: 8px 12px;
-    border: 1px solid #d32f2f;
-    border-radius: 6px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
     background-color: transparent;
-    color: #d32f2f;
-    font-size: 14px;
-    line-height: 1.2;
-    font-weight: 600;
+    color: #C80000;
     cursor: pointer;
-    transition:
-        background-color 200ms ease,
-        color 200ms ease;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: opacity 200ms ease, color 200ms ease;
 }
 
 .removeButton:hover,
 .removeButton:focus {
-    background-color: #d32f2f;
-    color: #fff;
+    opacity: 0.5;
+}
+
+.deleteIcon {
+    width: 16px;
+    height: 16px;
+    display: block;
+    fill: none;
+    stroke: #C80000;
 }
 
 /* tablet */
