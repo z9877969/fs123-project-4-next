@@ -1,16 +1,8 @@
-import { NewNoteContent, Note } from '@/types/note';
-import { api } from './api';
+// import { nextServer } from './api';
 import { cookies } from 'next/headers';
-import { FetchNotesResponse } from './clientApi';
 import { User } from '@/types/user';
-
-export async function fetchNotes(query: string, page: number, tag?: string) {
-  const params = { search: query, page, perPage: 12, tag: tag };
-  const { data } = await api.get<FetchNotesResponse>('/notes', {
-    params,
-  });
-  return data;
-}
+import { FetchRecipesResponse } from './clientApi';
+import { api } from '@/app/api/api';
 
 export const checkServerSession = async () => {
   const cookieStore = await cookies();
@@ -24,10 +16,51 @@ export const checkServerSession = async () => {
 
 export const getServerMe = async (): Promise<User> => {
   const cookieStore = await cookies();
-  const { data } = await api.get('/users/me', {
+  const { data } = await api.get('/users/current', {
     headers: {
       Cookie: cookieStore.toString(),
     },
   });
   return data;
 };
+
+interface FetchServerParams {
+  page: number;
+  search?: string;
+  category?: string;
+}
+
+export async function fetchRecipesServer({
+  page,
+  search,
+  category,
+}: FetchServerParams): Promise<FetchRecipesResponse> {
+  try {
+    const cookieStore = await cookies();
+
+    const params = {
+      page,
+      perPage: 12,
+      search: search || undefined,
+      category: category || undefined,
+    };
+    const res = await api.get('/api/recipes', {
+      params,
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
+
+    return res.data;
+  } catch (error) {
+    console.error('Server fetch error:', error);
+
+    return {
+      page: 1,
+      perPage: 12,
+      totalRecipes: 0,
+      totalPages: 0,
+      recipes: [],
+    };
+  }
+}

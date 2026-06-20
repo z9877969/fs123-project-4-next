@@ -1,4 +1,4 @@
-import css from "./LayoutNotes.module.css";
+import css from "./LayoutRecipes.module.css"
 type Props = {
   children: React.ReactNode;
   sidebar: React.ReactNode;

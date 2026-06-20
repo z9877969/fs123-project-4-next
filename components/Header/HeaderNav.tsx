@@ -7,9 +7,11 @@ import { usePathname, useRouter } from "next/navigation";
 import css from "./HeaderNav.module.css";
 import { useAuthStore } from "@/lib/store/authStore";
 import { logout } from "@/lib/api/clientApi";
+import LogoutModal from "../LogoutModal/Modal"
 
 const HeaderNav = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const panelId = useId();
@@ -43,6 +45,7 @@ const HeaderNav = () => {
     } finally {
       clearIsAuthenticated();
       setIsOpen(false);
+      setIsLogoutModalOpen(false);
       router.push("/");
     }
   };
@@ -115,7 +118,7 @@ const HeaderNav = () => {
         <span className={css.divider} aria-hidden="true" />
         <button
           type="button"
-          onClick={handleLogout}
+          onClick={() => setIsLogoutModalOpen(true)}
           className={css.iconButton}
           aria-label="Log out"
         >
@@ -160,6 +163,12 @@ const HeaderNav = () => {
       >
         <ul className={css.mobileList}>{links}</ul>
       </div>
+
+      <LogoutModal
+        isOpen={isLogoutModalOpen}
+        onClose={() => setIsLogoutModalOpen(false)}
+        onConfirm={handleLogout}
+      />
     </nav>
   );
 };

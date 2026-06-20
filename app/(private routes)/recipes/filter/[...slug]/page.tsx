@@ -1,56 +1,38 @@
-import {
-  HydrationBoundary,
-  dehydrate,
-  QueryClient,
-} from "@tanstack/react-query";
-import NotesClient from "./Recipes.client";
-import { Metadata } from "next";
-import { fetchNotes } from "@/lib/api/serverApi";
+import RecipesClient from "./Recipes.client";
+import { fetchRecipesServer } from "@/lib/api/serverApi"; 
 
-type Props = {
-  params: Promise<{ slug: string[] }>;
-};
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const tag = slug[0];
-  return {
-    title: `${tag} notes`,
-    description: `List of ${tag} notes`,
-    openGraph: {
-      title: `${tag} notes`,
-      description: `List of ${tag} notes`,
-      url: `https://notehub.com/notes/filter/${tag}`,
-      siteName: "NoteHub",
-      images: [
-        {
-          url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
-          width: 1200,
-          height: 630,
-          alt: `${tag} list`,
-        },
-      ],
-      type: "article",
-    },
+interface PageProps {
+  params: {
+    slug: string[]; 
+  };
+  searchParams: {
+    search?: string;
   };
 }
 
-const NotesByCategory = async ({ params }: Props) => {
-  const { slug } = await params;
-  const tag = slug[0] === "all" ? undefined : slug[0];
-  const queryClient = new QueryClient();
-  const query = "";
-  const page = 1;
-  await queryClient.prefetchQuery({
-    queryKey: ["notes", query, page, tag],
-    queryFn: () => fetchNotes("", 1, tag),
+export default async function RecipesFilterPage({ params, searchParams }: PageProps) {
+  const searchQuery = searchParams.search || "";
+  
+  const rawCategory = params.slug?.[0] || "all";
+  const currentCategory = rawCategory === "all" ? "" : rawCategory;
+
+  // 3. Робимо запит за ПЕРШОЮ сторінкою (12 елементів) на сервері.
+  // Заміни fetchRecipesServer на ту функцію, яку ти використовуєш для серверних запитів.
+  const initialData = await fetchRecipesServer({
+    page: 1,
+    search: searchQuery,
+    category: currentCategory,
   });
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <NotesClient tag={tag} />
-    </HydrationBoundary>
+    <section>
+      <RecipesClient 
+        initialRecipes={initialData.recipes}
+        totalPages={initialData.totalPages}
+        totalRecipes={initialData.totalRecipes}
+        searchQuery={searchQuery}
+        currentCategory={currentCategory}
+      />
+    </section>
   );
-};
-
-export default NotesByCategory;
+}

@@ -1,54 +1,85 @@
-"use client";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+'use client'
+import css from '@/components/RecipesList/RecipesList.module.css'
 import { useState } from "react";
-import { useDebouncedCallback } from "use-debounce";
-import NoteList from "@/components/NoteList/NoteList";
-import Pagination from "@/components/Pagination/Pagination";
-import SearchBox from "@/components/SearchBox/SearchBox";
-import css from "./NotesPage.module.css";
-import Link from "next/link";
-import { fetchNotes } from "@/lib/api/clientApi";
+import RecipeCard from "@/components/RecipeCard/RecipeCard"; 
+import LoadMoreBtn from '@/components/LoadMoreBtn/LoadMoreBtn';
+import { fetchRecipes } from '@/lib/api/clientApi';
+import { Recipe } from '@/types/recipe';
 
-interface NotesClientProps {
-  tag?: string;
+interface RecipeListProps {
+  initialRecipes: Recipe[];
+  totalPages: number;
+  totalRecipes: number;
+  searchQuery?: string;     
+  currentCategory?: string; 
 }
-export default function NotesClient({ tag }: NotesClientProps) {
+
+export default function RecipesList({
+  initialRecipes,
+  totalPages,
+  totalRecipes,
+  searchQuery = "",
+  currentCategory = "",
+}: RecipeListProps) {
+    const [recipes, setRecipes] = useState<Recipe[]>(initialRecipes);
   const [page, setPage] = useState(1);
-  const [searchValue, setSearchValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { data, isSuccess } = useQuery({
-    queryKey: ["notes", searchValue, page, tag],
-    queryFn: () => fetchNotes(searchValue, page, tag),
-    placeholderData: keepPreviousData,
+  const hasMore = page < totalPages;
+
+  const handleLoadMore = async () => {
+    if (isLoading || !hasMore) return; 
+
+    setIsLoading(true);
+    try {
+      const nextPage = page + 1;
+      
+      const data = await fetchRecipes(nextPage, searchQuery, currentCategory);
+      
+      setRecipes((prevRecipes) => [...prevRecipes, ...data.recipes]);
+      
+      setPage(nextPage);
+    } catch (error) {
+        const iziToast = (await import("izitoast")).default;
+
+  iziToast.error({
+    title: "Error",
+    message: "Failed to load more recipes. Please try again later.",
+    position: "topRight",
   });
-
-  const handleChange = useDebouncedCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchValue(event.target.value.trim());
-      setPage(1);
-    },
-    500,
-  );
-
-  const totalPages = data?.totalPages || 0;
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div className={css.app}>
-      <header className={css.toolbar}>
-        <SearchBox value={searchValue} onSearch={handleChange} />
+    <div className={css.container}>
+      <div className={css.header}>
+        <h1 className={css.title}>Recipes</h1>
+        <div className={css.meta}>
+          <span className={css.count}>{totalRecipes} recipes</span>
+          <button className={css.filterBtn} aria-label="Filters">
+            Filters
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+          </button>
+        </div>
+      </div>
 
-        {totalPages > 1 && (
-          <Pagination
-            totalPages={totalPages}
-            currentPage={page}
-            onPageChange={setPage}
-          />
-        )}
-        <Link href="/notes/action/create" className={css.button}>
-          Create note +
-        </Link>
-      </header>
-      {isSuccess && data.notes.length > 0 && <NoteList notes={data.notes} />}
+      <ul className={css.grid}>
+        {recipes.map((recipe) => (
+          <li key={recipe.id} className={css.gridItem}>
+            {/* <RecipeCard recipe={recipe} /> */}
+          </li>
+        ))}
+      </ul>
+
+      {hasMore && (
+        <div className={css.loadMoreWrapper}>
+          <LoadMoreBtn onClick={handleLoadMore} disabled={isLoading} />
+        </div>
+      )}
     </div>
   );
 }

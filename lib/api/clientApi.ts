@@ -1,13 +1,10 @@
-import { NewNoteContent, Note } from '@/types/note';
+import { Recipe } from '@/types/recipe';
 import { api } from './api';
 import { User } from '@/types/user';
-
-export interface FetchNotesResponse {
-  notes: Note[];
-  totalPages: number;
-}
+import { FetchNotesResponse } from './recipesApi';
 
 export type RegisterRequest = {
+  name: string;
   email: string;
   password: string;
 };
@@ -61,17 +58,17 @@ export async function fetchNotes(
 }
 
 export async function fetchNoteById(id: string) {
-  const res = await api.get<Note>(`/notes/${id}`);
+  const res = await api.get(`/notes/${id}`);
   return res.data;
 }
 
-export async function createNote(newNote: NewNoteContent): Promise<Note> {
-  const { data } = await api.post<Note>('/notes', newNote);
+export async function createNote(newNote: any): Promise<any> {
+  const { data } = await api.post('/notes', newNote);
   return data;
 }
 
-export async function deleteNote(id: Note['id']): Promise<Note> {
-  const { data } = await api.delete<Note>(`/notes/${id}`);
+export async function deleteNote(id: any['id']): Promise<any> {
+  const { data } = await api.delete(`/notes/${id}`);
   return data;
 }
 
@@ -79,3 +76,32 @@ export const register = async (data: RegisterRequest) => {
   const res = await api.post<User>('/auth/register', data);
   return res.data;
 };
+
+export interface FetchRecipesResponse {
+  page: number;
+  perPage: number;
+  totalRecipes: number;
+  totalPages: number;
+  recipes: Recipe[];
+}
+
+export async function fetchRecipes(
+  page: number = 1,
+  query: string = '',
+  category?: string,
+  ingredient?: string
+): Promise<FetchRecipesResponse> {
+  const params = {
+    keyword: query,
+    page,
+    perPage: 12,
+    category,
+    ingredient,
+  };
+
+  const { data } = await api.get<FetchRecipesResponse>('/api/recipes', {
+    params,
+  });
+
+  return data;
+}

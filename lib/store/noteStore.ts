@@ -1,6 +1,11 @@
-import { create } from "zustand";
-import { NewNoteContent } from "@/types/note";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+
+type NewNoteContent = {
+  title: string;
+  content: string;
+  tag: string;
+};
 
 type NoteDraftStore = {
   draft: NewNoteContent;
@@ -9,9 +14,9 @@ type NoteDraftStore = {
 };
 
 const initialDraft: NewNoteContent = {
-  title: "",
-  content: "",
-  tag: "Todo",
+  title: '',
+  content: '',
+  tag: 'Todo',
 };
 
 export const useNoteDraftStore = create<NoteDraftStore>()(
@@ -22,8 +27,8 @@ export const useNoteDraftStore = create<NoteDraftStore>()(
       clearDraft: () => set(() => ({ draft: initialDraft })),
     }),
     {
-      name: "note-draft",
+      name: 'note-draft',
       partialize: (state) => ({ draft: state.draft }),
-    },
-  ),
+    }
+  )
 );
