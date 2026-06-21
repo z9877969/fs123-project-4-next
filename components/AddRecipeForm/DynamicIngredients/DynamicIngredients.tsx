@@ -7,8 +7,11 @@ import type {
   DynamicIngredientsProps,
 } from '@/types/addRecipe';
 import s from './DynamicIngredients.module.css';
+import SelectedIngredientsList from './SelectedIngredientsList';
 
-export default function DynamicIngredients({ ingredients }: DynamicIngredientsProps) {
+export default function DynamicIngredients({
+  ingredients,
+}: DynamicIngredientsProps) {
   const fieldId = useId();
 
   return (
@@ -23,7 +26,8 @@ export default function DynamicIngredients({ ingredients }: DynamicIngredientsPr
         const ingredientsList = values.ingredientsList || [];
 
         const ingredientsListError = getIn(form.errors, 'ingredientsList');
-        const ingredientsListTouched = getIn(form.touched, 'ingredientsList');
+        const shouldShowIngredientsListError =
+          typeof ingredientsListError === 'string' && form.submitCount > 0;
 
         const handleAddIngredient = () => {
           const amount = values.amount.trim();
@@ -79,7 +83,7 @@ export default function DynamicIngredients({ ingredients }: DynamicIngredientsPr
                 </Field>
               </div>
 
-              <div className={s.amountBlock}>
+              <div className={s.amountColumn}>
                 <div className={s.fieldGroup}>
                   <label className={s.label} htmlFor={`${fieldId}-amount`}>
                     Amount
@@ -105,35 +109,14 @@ export default function DynamicIngredients({ ingredients }: DynamicIngredientsPr
               </div>
             </div>
 
-            {typeof ingredientsListError === 'string' && ingredientsListTouched && (
+            {shouldShowIngredientsListError && (
               <p className={s.error}>{ingredientsListError}</p>
             )}
 
-            <div className={s.listHeader}>
-              <span>Name:</span>
-              <span>Amount:</span>
-            </div>
-
-            <ul className={s.ingredientList}>
-              {ingredientsList.map((item, index) => (
-                <li
-                  key={`${item.ingredientId}-${index}`}
-                  className={s.ingredientItem}
-                >
-                  <span className={s.ingredientName}>{item.name}</span>
-                  <span className={s.ingredientAmount}>{item.amount}</span>
-
-                  <button
-                    type="button"
-                    className={s.removeButton}
-                    onClick={() => remove(index)}
-                    aria-label={`Remove ${item.name}`}
-                  >
-                    Remove
-                  </button>
-                </li>
-              ))}
-            </ul>
+            <SelectedIngredientsList
+              ingredientsList={ingredientsList}
+              onRemove={remove}
+            />
           </section>
         );
       }}

@@ -1,11 +1,18 @@
+import type { IngredientOption } from '@/types/ingredient';
 import { nextServer } from './api';
 
-export interface Ingredient {
-  id: string;
+interface BackendIngredient {
+  _id: string;
+  id?: string;
   name: string;
+  desc?: string;
+  img?: string;
 }
 
-export async function getIngredients(): Promise<Ingredient[]> {
-  const { data } = await nextServer.get<Ingredient[]>('/ingredients');
-  return data;
+export async function getIngredients(): Promise<IngredientOption[]> {
+  const { data } = await nextServer.get<BackendIngredient[]>('/ingredients');
+  return data.map((ingredient) => ({
+    id: ingredient.id ?? ingredient._id,
+    name: ingredient.name,
+  }));
 }
