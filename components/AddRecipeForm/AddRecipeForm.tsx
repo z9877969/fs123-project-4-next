@@ -49,9 +49,8 @@ function PhotoUpload() {
           style={{ objectFit: 'cover' }}
         />
       ) : (
-        <svg width="44" height="38" viewBox="0 0 44 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M15 3L11 11H5C3.3 11 2 12.3 2 14V33C2 34.7 3.3 36 5 36H39C40.7 36 42 34.7 42 33V14C42 12.3 40.7 11 39 11H33L29 3H15Z" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <circle cx="22" cy="22" r="8" stroke="#888" strokeWidth="2"/>
+        <svg width="44" height="38" viewBox="0 0 38 32" aria-hidden="true" className={s.photoIcon}>
+          <use href="/icons/icons.svg#icon-photo" />
         </svg>
       )}
       <input
