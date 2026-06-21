@@ -1,12 +1,13 @@
-// import { nextServer } from './api';
+import { nextServer } from './api';
 import { cookies } from 'next/headers';
 import { User } from '@/types/user';
 import { FetchRecipesResponse } from './clientApi';
 import { api } from '@/app/api/api';
+import { Recipe } from '@/types/recipe';
 
 export const checkServerSession = async () => {
   const cookieStore = await cookies();
-  const res = await api.get('/auth/session', {
+  const res = await nextServer.get('/auth/session', {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -16,7 +17,7 @@ export const checkServerSession = async () => {
 
 export const getServerMe = async (): Promise<User> => {
   const cookieStore = await cookies();
-  const { data } = await api.get('/users/current', {
+  const { data } = await nextServer.get('/users/current', {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -26,6 +27,7 @@ export const getServerMe = async (): Promise<User> => {
 
 interface FetchServerParams {
   page: number;
+  perPage: number;
   search?: string;
   category?: string;
 }
@@ -63,4 +65,14 @@ export async function fetchRecipesServer({
       recipes: [],
     };
   }
+}
+
+export async function fetchRecipeByIdServer(recipeId: string): Promise<Recipe> {
+  const cookieStore = await cookies();
+  const res = await api.get(`/api/recipes/${recipeId}`, {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return res.data.data;
 }

@@ -4,11 +4,10 @@ type Props = {
   sidebar: React.ReactNode;
 };
 
-const RecipesLayout = ({ children, sidebar }: Props) => {
+const RecipesLayout = ({ children }: Props) => {
   return (
     <section className={css.container}>
-      <aside className={css.sidebar}>{sidebar}</aside>
-      <div className={css.notesWrapper}>{children}</div>
+      {children}
     </section>
   );
 };

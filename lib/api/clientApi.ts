@@ -1,10 +1,8 @@
 import { Recipe } from '@/types/recipe';
-import { api } from './api';
+import { nextServer } from './api';
 import { User } from '@/types/user';
-import { FetchNotesResponse } from './recipesApi';
 
 export type RegisterRequest = {
-  name: string;
   email: string;
   password: string;
 };
@@ -22,58 +20,31 @@ export type UpdateUserRequest = {
 };
 
 export const updateMe = async (payload: UpdateUserRequest) => {
-  const res = await api.patch<User>('/users/me', payload);
+  const res = await nextServer.patch<User>('/users/me', payload);
   return res.data;
 };
 
 export const login = async (data: LoginRequest) => {
-  const res = await api.post<User>('/auth/login', data);
+  const res = await nextServer.post<User>('/auth/login', data);
   return res.data;
 };
 
 export const logout = async (): Promise<void> => {
-  await api.post('/auth/logout');
+  await nextServer.post('/auth/logout');
 };
 
 export const getMe = async () => {
-  const { data } = await api.get<User>('/users/me');
+  const { data } = await nextServer.get<User>('/users/me');
   return data;
 };
 
 export const checkSession = async () => {
-  const res = await api.get<CheckSessionRequest>('/auth/session');
+  const res = await nextServer.get<CheckSessionRequest>('/auth/session');
   return res.data.success;
 };
 
-export async function fetchNotes(
-  query: string,
-  page: number,
-  tag?: string
-): Promise<FetchNotesResponse> {
-  const params = { search: query, page, perPage: 12, tag: tag };
-  const { data } = await api.get<FetchNotesResponse>('/notes', {
-    params,
-  });
-  return data;
-}
-
-export async function fetchNoteById(id: string) {
-  const res = await api.get(`/notes/${id}`);
-  return res.data;
-}
-
-export async function createNote(newNote: any): Promise<any> {
-  const { data } = await api.post('/notes', newNote);
-  return data;
-}
-
-export async function deleteNote(id: any['id']): Promise<any> {
-  const { data } = await api.delete(`/notes/${id}`);
-  return data;
-}
-
 export const register = async (data: RegisterRequest) => {
-  const res = await api.post<User>('/auth/register', data);
+  const res = await nextServer.post<User>('/auth/register', data);
   return res.data;
 };
 
@@ -99,9 +70,37 @@ export async function fetchRecipes(
     ingredient,
   };
 
-  const { data } = await api.get<FetchRecipesResponse>('/api/recipes', {
+  const { data } = await nextServer.get<FetchRecipesResponse>('/api/recipes', {
     params,
   });
 
+  return data;
+}
+
+export interface AddFavoriteResponse {
+  status: number;
+  message: string;
+  data: string[];
+}
+
+export interface RemoveFavoriteResponse {
+  status: number;
+  message: string;
+  data: {
+    recipeId: string;
+  };
+}
+
+export async function addToFavorites(
+  recipeId: string
+): Promise<AddFavoriteResponse> {
+  const { data } = await nextServer.post(`/recipes/${recipeId}/favorite`);
+  return data;
+}
+
+export async function removeFromFavorites(
+  recipeId: string
+): Promise<RemoveFavoriteResponse> {
+  const { data } = await nextServer.delete(`/recipes/${recipeId}/favorite`);
   return data;
 }

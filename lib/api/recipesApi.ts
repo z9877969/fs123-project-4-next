@@ -1,5 +1,5 @@
 import { Recipe } from '@/types/recipe';
-import { api } from './api';
+import { nextServer } from './api';
 import { SearchFilters } from '@/types/filters';
 
 export interface FetchNotesResponse {
@@ -25,7 +25,7 @@ export async function fetchRecipes({
   if (ingredient && ingredient.trim() !== '')
     params.ingredient = ingredient.trim();
 
-  const { data } = await api.get<FetchNotesResponse>('/recipes', {
+  const { data } = await nextServer.get<FetchNotesResponse>('/recipes', {
     params,
   });
 

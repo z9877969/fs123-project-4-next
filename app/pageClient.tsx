@@ -54,7 +54,7 @@ export default function RecipesList({
   };
 
   return (
-    <>
+    <div className={css.container}>
         <h1 className={css.title}>Recipes</h1>
         <div className={css.meta}>
           <span className={css.count}>{totalRecipes} recipes</span>
@@ -77,6 +77,6 @@ export default function RecipesList({
       {hasMore && (
           <LoadMoreBtn onClick={handleLoadMore} disabled={isLoading} />
       )}
-    </>
+    </div>
   );
 }
