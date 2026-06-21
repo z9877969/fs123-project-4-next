@@ -49,10 +49,10 @@ function PhotoUpload() {
           style={{ objectFit: 'cover' }}
         />
       ) : (
-        <>
-          <span>📷</span>
-          <span>Upload photo</span>
-        </>
+        <svg width="44" height="38" viewBox="0 0 44 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M15 3L11 11H5C3.3 11 2 12.3 2 14V33C2 34.7 3.3 36 5 36H39C40.7 36 42 34.7 42 33V14C42 12.3 40.7 11 39 11H33L29 3H15Z" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="22" cy="22" r="8" stroke="#888" strokeWidth="2"/>
+        </svg>
       )}
       <input
         ref={inputRef}
@@ -90,6 +90,8 @@ export default function AddRecipeForm({ ingredients }: AddRecipeFormProps) {
       }}
     >
       <Form className={s.form}>
+        <h2 className={s.pageTitle}>Add Recipe</h2>
+
         <section className={s.mainSection}>
           <h3 className={s.sectionTitle}>General Information</h3>
 
@@ -122,7 +124,7 @@ export default function AddRecipeForm({ ingredients }: AddRecipeFormProps) {
           <div className={s.ingredientRow}>
             <div className={s.fieldGroup}>
               <label className={s.label} htmlFor={`${fieldId}-cookingTime`}>
-                Cooking time (min)
+                Cooking time in minutes
               </label>
               <Field
                 className={s.input}
@@ -182,11 +184,8 @@ export default function AddRecipeForm({ ingredients }: AddRecipeFormProps) {
         </section>
 
         <section className={s.photoSection}>
-          <div className={s.photoUpload}>
-            <span>📷</span>
-            <span>Upload photo</span>
-            <input name="photo" type="file" accept="image/*" />
-          </div>
+          <h3 className={s.photoLabel}>Upload Photo</h3>
+          <PhotoUpload />
         </section>
       </Form>
     </Formik>
