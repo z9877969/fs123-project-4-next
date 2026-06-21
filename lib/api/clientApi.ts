@@ -76,6 +76,14 @@ export async function fetchRecipes(
   return data;
 }
 
+export async function fetchRecipeById(recipeId: string): Promise<Recipe> {
+  const { data } = await fetch(`/api/recipes/${recipeId}`).then((res) => {
+    if (!res.ok) throw new Error('Failed to fetch recipe');
+    return res.json();
+  });
+  return data.data;
+}
+
 export interface AddFavoriteResponse {
   status: number;
   message: string;

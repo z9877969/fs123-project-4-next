@@ -24,7 +24,8 @@
 }
 .gridItem{
     flex-basis: 339px;
-    height: 483px;
+    max-height: 483px;
+    max-width: 361px;
 }
 .title{
     font-weight: 600;
@@ -56,6 +57,7 @@
     }
     .gridItem{
         flex-basis: calc((100% - 24px) / 2);
+        max-width: 339px;
     }
 }
 
@@ -65,6 +67,7 @@
     }
     .gridItem{
         flex-basis: calc((100% - 3 * 24px) / 4);
+        max-width: 288px;
     }
 }
 
