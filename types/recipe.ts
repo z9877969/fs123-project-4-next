@@ -4,10 +4,14 @@ import { RecipeIngredient } from './ingredient';
 export interface Recipe {
   _id: string;
   title: string;
+  category: Category;
+  owner: string;
+  area?: string;
+  instructions: string;
   description: string;
+  thumb?: string;
   time: number;
   calories: number;
-  category: Category;
   ingredients: RecipeIngredient[];
   instructions: string;
   image: string;
