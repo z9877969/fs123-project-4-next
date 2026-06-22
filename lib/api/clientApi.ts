@@ -76,12 +76,32 @@ export async function fetchRecipes(
   return data;
 }
 
-export async function fetchRecipeById(recipeId: string): Promise<Recipe> {
-  const { data } = await fetch(`/api/recipes/${recipeId}`).then((res) => {
-    if (!res.ok) throw new Error('Failed to fetch recipe');
-    return res.json();
-  });
-  return data.data;
+export interface AddFavoriteResponse {
+  status: number;
+  message: string;
+  data: string[];
+}
+
+export interface RemoveFavoriteResponse {
+  status: number;
+  message: string;
+  data: {
+    recipeId: string;
+  };
+}
+
+export async function addToFavorites(
+  recipeId: string
+): Promise<AddFavoriteResponse> {
+  const { data } = await nextServer.post(`/recipes/${recipeId}/favorite`);
+  return data;
+}
+
+export async function removeFromFavorites(
+  recipeId: string
+): Promise<RemoveFavoriteResponse> {
+  const { data } = await nextServer.delete(`/recipes/${recipeId}/favorite`);
+  return data;
 }
 
 export const getFavoriteRecipes = async (): Promise<Recipe[]> => {

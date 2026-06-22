@@ -13,7 +13,9 @@ export interface Recipe {
   time: number;
   calories: number;
   ingredients: RecipeIngredient[];
-  image?: string;
+  instructions: string;
+  image: string;
+  owner: string;
   createdAt: string;
   updatedAt: string;
 }
