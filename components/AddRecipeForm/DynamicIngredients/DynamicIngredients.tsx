@@ -97,7 +97,7 @@ export default function DynamicIngredients({
                     placeholder="e.g. 100g"
                   />
                 </div>
-
+              </div>
                 <button
                   type="button"
                   className={s.addButton}
@@ -106,7 +106,6 @@ export default function DynamicIngredients({
                 >
                   Add new Ingredient
                 </button>
-              </div>
             </div>
 
             {shouldShowIngredientsListError && (

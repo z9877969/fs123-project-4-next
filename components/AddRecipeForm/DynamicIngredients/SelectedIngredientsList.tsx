@@ -10,9 +10,10 @@ export default function SelectedIngredientsList({
   ingredientsList,
   onRemove,
 }: SelectedIngredientsListProps) {
+  const hasItems = ingredientsList.length > 0;
   return (
     <>
-      <div className={s.listHeader}>
+      <div className={s.listHeader} data-has-items={hasItems}>
         <span>Name:</span>
         <span>Amount:</span>
         <span className={s.actionHeader}>Action</span>

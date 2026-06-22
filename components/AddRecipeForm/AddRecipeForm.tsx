@@ -6,10 +6,7 @@ import Image from 'next/image';
 import { addRecipeValidationSchema } from '@/lib/validation/addRecipeValidationSchema';
 import DynamicIngredients from './DynamicIngredients/DynamicIngredients';
 import s from './AddRecipesForm.module.css';
-import {
-  AddRecipeFormValues,
-  AddRecipeFormProps,
- } from '@/types/addRecipe';
+import { AddRecipeFormValues, AddRecipeFormProps } from '@/types/addRecipe';
 
 function PhotoUpload() {
   const { setFieldValue } = useFormikContext<AddRecipeFormValues>();
@@ -49,7 +46,13 @@ function PhotoUpload() {
           style={{ objectFit: 'cover' }}
         />
       ) : (
-        <svg width="44" height="38" viewBox="0 0 38 32" aria-hidden="true" className={s.photoIcon}>
+        <svg
+          width="44"
+          height="38"
+          viewBox="0 0 38 32"
+          aria-hidden="true"
+          className={s.photoIcon}
+        >
           <use href="/icons/icons.svg#icon-photo" />
         </svg>
       )}
@@ -92,35 +95,38 @@ export default function AddRecipeForm({ ingredients }: AddRecipeFormProps) {
         <h2 className={s.pageTitle}>Add Recipe</h2>
 
         <section className={s.mainSection}>
-          <h3 className={s.sectionTitle}>General Information</h3>
+          <div className={s.generalGrid}>
+            <h3 className={s.sectionTitle}>General Information</h3>
 
-          <div className={s.fieldGroup}>
-            <label className={s.label} htmlFor={`${fieldId}-recipeTitle`}>
-              Recipe Title
-            </label>
-            <Field
-              className={s.input}
-              name="recipeTitle"
-              id={`${fieldId}-recipeTitle`}
-              type="text"
-              placeholder="Enter the name of your recipe"
-            />
-          </div>
+            <div className={s.fieldGroup}>
+              <label className={s.label} htmlFor={`${fieldId}-recipeTitle`}>
+                Recipe Title
+              </label>
+              <Field
+                className={s.input}
+                name="recipeTitle"
+                id={`${fieldId}-recipeTitle`}
+                type="text"
+                placeholder="Enter the name of your recipe"
+              />
+            </div>
 
-          <div className={s.fieldGroup}>
-            <label className={s.label} htmlFor={`${fieldId}-recipeDescription`}>
-              Recipe Description
-            </label>
-            <Field
-              className={s.textarea}
-              name="recipeDescription"
-              id={`${fieldId}-recipeDescription`}
-              as="textarea"
-              placeholder="Enter a brief description of your recipe"
-            />
-          </div>
+            <div className={s.fieldGroup}>
+              <label
+                className={s.label}
+                htmlFor={`${fieldId}-recipeDescription`}
+              >
+                Recipe Description
+              </label>
+              <Field
+                className={s.textarea}
+                name="recipeDescription"
+                id={`${fieldId}-recipeDescription`}
+                as="textarea"
+                placeholder="Enter a brief description of your recipe"
+              />
+            </div>
 
-          <div className={s.ingredientRow}>
             <div className={s.fieldGroup}>
               <label className={s.label} htmlFor={`${fieldId}-cookingTime`}>
                 Cooking time in minutes
@@ -162,10 +168,11 @@ export default function AddRecipeForm({ ingredients }: AddRecipeFormProps) {
 
           <DynamicIngredients ingredients={ingredients} />
 
-          <h3 className={s.sectionTitle}>Instructions</h3>
-
           <div className={s.fieldGroup}>
-            <label className={s.label} htmlFor={`${fieldId}-instructions`}>
+            <label
+              className={s.instructionTitle}
+              htmlFor={`${fieldId}-instructions`}
+            >
               Instructions
             </label>
             <Field

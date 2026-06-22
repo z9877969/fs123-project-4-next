@@ -5,7 +5,10 @@ export interface Ingredient {
   img: string;
 }
 
-export type IngredientOption = Pick<Ingredient, '_id' | 'name'>;
+export interface IngredientOption {
+  id: string;
+  name: string;
+}
 
 export interface RecipeIngredient {
   id: Ingredient;

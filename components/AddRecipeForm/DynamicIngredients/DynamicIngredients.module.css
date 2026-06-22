@@ -1,21 +1,18 @@
 .wrapper {
     width: 100%;
-    margin-top: 32px;
 }
 
 .sectionTitle {
-    margin: 0 0 24px;
+    margin-bottom: 32px;
     font-size: 32px;
     line-height: 1.2;
-    font-weight: 700;
-    color: #000;
+    font-weight: 600;
 }
 
 .controls {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 16px;
-    margin-bottom: 32px;
+    gap: 24px;
 }
 
 .fieldGroup {
@@ -28,7 +25,6 @@
     font-size: 18px;
     line-height: 1.4;
     font-weight: 400;
-    color: #000;
 }
 
 .select,
@@ -50,18 +46,60 @@
 
 .select {
     appearance: none;
+    -webkit-appearance: none;
+
+    width: 100%;
+    height: 48px;
+    padding: 0 44px 0 16px;
+
+    border: 1px solid var(--light-gray);
+    border-radius: 6px;
+    background-color: var(--white);
+
+    font-family: var(--font-family);
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 400;
+    color: var(--gray-2);
+
     cursor: pointer;
-    padding-right: 44px;
+    outline: none;
+
     background-image: url("data:image/svg+xml,%3Csvg width='16' height='10' viewBox='0 0 16 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L8 8.5L15 1.5' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 16px center;
     background-size: 16px 10px;
+
+    transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .select:focus,
-.input:focus {
-    border-color: #a56f43;
-    box-shadow: 0 0 0 2px rgba(165, 111, 67, 0.16);
+input:focus {
+    border: 1.50px solid #9b6c43;
+    box-shadow: 0 0 0 2px rgba(155, 108, 67, 0.16);
+}
+
+.select option {
+    font-family: var(--font-family);
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 400;
+
+    color: var(--black);
+    background-color: var(--white);
+}
+
+.select option:checked {
+    background-color: var(--light-gray-2);
+    color: var(--black);
+}
+
+.select option:focus {
+    color: var(--light-gray-2);
+}
+
+.select option:disabled {
+    color: var(--light-gray);
 }
 
 .amountColumn {
@@ -73,10 +111,9 @@
 .addButton {
     width: 100%;
     height: 48px;
-    margin-top: 16px;
     border: none;
     border-radius: 8px;
-    background-color: #a56f43;
+    background-color: var(--light-brown);
     color: #fff;
     font-size: 17px;
     line-height: 1.2;
@@ -85,16 +122,22 @@
     transition:
         background-color 200ms ease,
         opacity 200ms ease;
+
+    &:active {
+        box-shadow: var(--box-shadow);
+        background: var(--light-brown);
+    }
 }
 
 .addButton:hover,
 .addButton:focus {
-    background-color: #875933;
-    opacity: 0.5;
+    background-color: var(--brown);
 }
 
 .addButton:disabled {
-    opacity: 0.55;
+    box-shadow: 0 0 0 6px rgba(78, 70, 180, 0.12), 0 0 0 2px #fff;
+    background-color: var(--light-brown);
+    opacity: 0.3;
     cursor: not-allowed;
 }
 
@@ -102,19 +145,27 @@
     margin: -16px 0 20px;
     font-size: 14px;
     line-height: 1.4;
-    color: #d32f2f;
+    color: var(--red);
 }
 
 .listHeader {
-    display: grid;
+    display: none;
     grid-template-columns: 1fr 1fr 24px;
     gap: 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #d9d9d9;
-    font-size: 17px;
+
+    margin-top: 32px;
+    padding: 16px 0;
+
+    border-bottom: 1px solid var(--light-gray);
+
+    font-family: var(--font-family);
+    font-size: 16px;
     line-height: 1.4;
     font-weight: 700;
-    color: #000;
+}
+
+.listHeader[data-has-items='true'] {
+    display: grid;
 }
 
 .actionHeader {
@@ -124,8 +175,10 @@
 .ingredientList {
     display: flex;
     flex-direction: column;
+
     margin: 0;
     padding: 0;
+
     list-style: none;
 }
 
@@ -134,15 +187,18 @@
     grid-template-columns: 1fr 1fr 24px;
     gap: 16px;
     align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid #e5e5e5;
+
+    padding: 16px 0;
+    border-bottom: 1px solid var(--light-gray);
 }
 
 .ingredientName,
 .ingredientAmount {
+    font-family: var(--font-family);
     font-size: 16px;
     line-height: 1.4;
-    color: #333;
+    font-weight: 400;
+    color: var(--gray-2);
 }
 
 .removeButton {
@@ -177,10 +233,18 @@
 /* tablet */
 @media screen and (min-width: 768px) {
     .controls {
-        grid-template-columns: 430px 249px;
+        grid-template-columns: 1fr 249px;
+        column-gap: 24px;
         align-items: start;
-        gap: 24px;
-        margin-bottom: 34px;
+        row-gap: 16px;
+        margin-bottom: 32px;
+    }
+
+    .addButton {
+        grid-column: 2 / 3;
+        width: 249px;
+        height: 48px;
+        justify-self: end;
     }
 
     .amountColumn {
@@ -188,30 +252,44 @@
     }
 
     .listHeader {
+        display: grid;
+        grid-template-columns: 1fr 1fr 24px;
+        gap: 16px;
+
         max-width: 430px;
+        margin-top: 32px;
+        padding: 8px 0px;
+
+        border-bottom: 1px solid var(--light-gray);
+
+        font-family: var(--font-family);
+        font-size: 16px;
+        line-height: 1.4;
+        font-weight: 600;
     }
 
     .ingredientItem {
         max-width: 430px;
-        grid-template-columns: 1fr 1fr auto;
     }
 
-        .removeButton {
-            width: 24px;
-            height: 24px;
-        }
+    .removeButton {
+        width: 24px;
+        height: 24px;
+    }
 }
 
 /* desktop */
 @media screen and (min-width: 1440px) {
     .sectionTitle {
-        margin-bottom: 24px;
+        margin-bottom: 32px;
         font-size: 32px;
     }
 
     .controls {
         grid-template-columns: 1fr 280px;
-        gap: 24px;
+        column-gap: 24px;
+        row-gap: 16px;
+        align-items: start;
     }
 
     .select,
@@ -220,8 +298,15 @@
     }
 
     .addButton {
-        height: 44px;
+        grid-column: 2 / 3;
+        justify-self: end;
+
+        width: 258px;
+        height: 23px;
+
         font-size: 14px;
+        line-height: 1;
+        border-radius: 4px;
     }
 
     .amountColumn {
@@ -229,10 +314,11 @@
     }
 
     .listHeader {
-        max-width: 100%;
+        max-width: 304px;
+        padding: 0;
     }
 
     .ingredientItem {
-        max-width: 100%;
+        max-width: 304px;
     }
 }
