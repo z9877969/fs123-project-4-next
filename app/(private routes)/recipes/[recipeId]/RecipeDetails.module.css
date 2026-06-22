@@ -1,59 +1,160 @@
-.main {
-    flex: 1;
-}
-
 .container {
-    max-width: 800px;
-    margin: 32px auto;
-    padding: 24px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.item {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  max-width: 1225px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-bottom: 32px;
 }
 
-.header h2 {
-    margin: 0;
-    font-size: 28px;
-    color: #333;
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 624px;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  object-fit: contain;
+  /* flex-shrink: 0; */
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 110%;
+  margin: 0;
+  color: black;
 }
 
 .content {
-    font-size: 18px;
-    line-height: 26px;
-    color: #444;
-    white-space: pre-wrap;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
 }
 
-.date {
-    font-size: 14px;
-    color: #888;
-    text-align: right;
+@media (max-width: 768px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
 }
 
-.tag {
-    display: inline-block;
-    padding: 4px 8px;
-    font-size: 12px;
-    color: #0d6efd;
-    background-color: #e7f1ff;
-    border: 1px solid #b6d4fe;
-    border-radius: 12px;
-    max-width: 100px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sectionTitle {
+  font-size: 32px;
+  font-weight: 600;
+  color: black;
+  margin: 0;
+  /* padding-bottom: 10px;
+  border-bottom: 2px solid #f0f0f0; */
+}
+
+.description {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: black;
+  margin: 0;
+}
+
+.ingredientsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ingredientItem {
+  font-size: 16px;
+  line-height: 1.55;
+  color: black;
+  padding-left: 20px;
+  position: relative;
+}
+
+.ingredientItem::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #999;
+}
+
+.instructions {
+  font-size: 16px;
+  line-height: 1.55;
+  color: black;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0;
+  margin-bottom: 28px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.infoBox {
+  background: #faf3e0;
+  min-width: 393px;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.infoBoxTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: black;
+  margin: 0;
+}
+
+.infoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  /* color: #555; */
+}
+
+.infoLabel {
+  font-weight: 600;
+  color: black;
+}
+
+.infoValue {
+  font-weight: 400;
+  line-height: 1.55;
+  color: #666;
 }

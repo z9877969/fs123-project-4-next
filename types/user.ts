@@ -1,5 +1,9 @@
 export interface User {
+  _id: string;
+  name: string;
   email: string;
-  username: string;
   avatar: string;
+  favorites: string[];
+  createdAt: string;
+  updatedAt: string;
 }

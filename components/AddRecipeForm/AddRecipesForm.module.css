@@ -1,174 +1,300 @@
-/* ─── Mobile adaptive (від 393px) ─── */
-@media screen and (min-width: 393px) {
-  .form {
-    display: flex;
-    gap: 32px;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 32px 16px;
+/* mobile-first */
+
+@media screen and (min-width: 320px) {
+  .pageTitle {
+    order: -2;
+    font-family: var(--font-family);
+    font-size: 40px;
+    font-weight: 600;
+    margin-bottom: 16px;
   }
 
-  .mainSection {
-    flex: 1;
+  .form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    padding: 48px 16px 48px;
   }
 
   .photoSection {
-    width: 220px;
-    flex-shrink: 0;
+    width: 100%;
+    order: -1;
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 24px;
+  }
+
+  .photoLabel {
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--black);
+    margin-bottom: 4px;
+  }
+
+  .photoUpload {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 220px;
+    background: var(--gray-3);
+    border-radius: 16px;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .photoInput {
+    display: none;
+  }
+
+  .photoPreview {
+    border-radius: 12px;
+    object-fit: cover;
+  }
+
+  .photoIcon {
+    /* display: block; */
+    fill: none;
+    stroke-width: 2.56px;
+    stroke: var(--black);
+
+  }
+
+  .mainSection {
+    display: flex;
+    flex-direction: column;
   }
 
   .sectionTitle {
-    font-size: 18px;
+    font-family: var(--font-family);
     font-weight: 600;
-    color: #1a1a1a;
-    margin: 8px 0 4px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #e0e0e0;
+    font-size: 24px;
   }
 
   .fieldGroup {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
   }
 
   .label {
-    font-size: 13px;
-    font-weight: 500;
-    color: #555;
+    font-size: 18px;
+    font-weight: 400;
   }
 
   .input,
   .textarea,
   .select {
     width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #d0d0d0;
-    border-radius: 8px;
-    font-size: 14px;
-    color: #1a1a1a;
-    background: #fff;
+    height: 48px;
+    padding: 12px;
+    border: 1px solid var(--light-gray);
+    border-radius: 6px;
+    font-size: 18px;
+    line-height: 1.4;
+    color: var(--gray-2);
+    background: var(--white);
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
     box-sizing: border-box;
+    font-family: var(--font-family);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .input::placeholder,
+  .textarea::placeholder {
+    color: var(--light-gray);
   }
 
   .input:focus,
   .textarea:focus,
   .select:focus {
-    border-color: #4caf50;
+    border-color: var(--darck-brown-65-);
+    box-shadow: var(--box-shadow);
   }
 
   .textarea {
-    min-height: 90px;
+    height: auto;
+    min-height: 144px;
+    padding: 12px;
     resize: vertical;
   }
 
+  .select {
+    cursor: pointer;
+    padding-right: 44px;
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='10' viewBox='0 0 16 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L8 8.5L15 1.5' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px 10px;
+  }
+
+  /* mobile: cooking time full-width, calories + category side by side */
   .ingredientRow {
-    display: flex;
-    gap: 12px;
-    align-items: flex-end;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
   }
 
-  .ingredientRow .input,
-  .ingredientRow .select {
-    flex: 1;
-  }
-
-  .ingredientList {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 4px;
-  }
-
-  .ingredientItem {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 12px;
-    background: #f4f4f4;
-    border-radius: 8px;
-    font-size: 14px;
-  }
-
-  .ingredientItem span {
-    flex: 1;
-    color: #333;
-  }
-
-  .btnSecondary {
-    padding: 8px 16px;
-    border: 1px solid #4caf50;
-    border-radius: 8px;
-    background: #fff;
-    color: #4caf50;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
-  }
-
-  .btnSecondary:hover {
-    background: #f0faf0;
-  }
-
-  .btnDanger {
-    padding: 4px 10px;
-    border: 1px solid #e57373;
-    border-radius: 6px;
-    background: #fff;
-    color: #e57373;
-    font-size: 12px;
-    cursor: pointer;
-  }
-
-  .btnDanger:hover {
-    background: #fff5f5;
+  .ingredientRow .fieldGroup:first-child {
+    grid-column: 1 / -1;
   }
 
   .btnPrimary {
     width: 100%;
-    padding: 12px;
-    background: #4caf50;
+    height: 52px;
+    margin-top: 8px;
     border: none;
     border-radius: 8px;
-    color: #fff;
-    font-size: 15px;
+    background: var(--light-brown);
+    color: var(--white);
+    font-size: 17px;
+    line-height: 1.2;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
-    margin-top: 8px;
+    transition: background-color 200ms ease;
   }
 
-  .btnPrimary:hover {
-    background: #43a047;
-  }
-
-  .photoUpload {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 220px;
-    border: 2px dashed #c8e6c9;
-    border-radius: 12px;
-    background: #f9fef9;
-    cursor: pointer;
-    color: #888;
-    font-size: 13px;
-    text-align: center;
-    gap: 8px;
+  .btnPrimary:hover,
+  .btnPrimary:focus {
+    background: var(--brown);
   }
 }
 
-/* ─── Tablet (від 768px) ─── */
-@media screen and (min-width: 768px) {}
 
-/* ─── Desktop (від 1440px) ─── */
-@media screen and (min-width: 1440px) {}
+/* ------ TABLET ----- */
+
+@media screen and (min-width: 768px) {
+  .form {
+    padding: 40px 32px 64px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .pageTitle {
+    margin-bottom: 16px;
+    font-size: 48px;
+    line-height: 1.1;
+  }
+
+
+
+  .photoSection {
+    margin-bottom: 24px;
+  }
+
+  .photoLabel {
+    font-size: 32px;
+    color: #000;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .photoUpload {
+    width: 704px;
+    height: 383px;
+  }
+
+  .mainSection>* {
+    margin-bottom: 32px;
+  }
+
+  .mainSection>*:last-child {
+    margin-bottom: 0;
+  }
+
+  .sectionTitle {
+    font-size: 32px;
+    margin-bottom: 32px;
+  }
+
+  .label {
+    font-size: 18px;
+  }
+
+  .input,
+  .select {
+    height: 52px;
+  }
+
+  .textarea {
+    min-height: 140px;
+  }
+
+  /* tablet: cooking time full-width, calories + category side by side below */
+  .ingredientRow {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 32px;
+    column-gap: 24px;
+    margin-bottom: 0;
+  }
+
+  .ingredientRow .fieldGroup:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .btnPrimary {
+    max-width: 320px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .form {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    column-gap: 24px;
+    row-gap: 40px;
+    max-width: 1280px;
+    padding: 56px 80px 96px;
+  }
+
+  .pageTitle {
+    flex-basis: 100%;
+    order: 0;
+    margin-bottom: 0;
+  }
+
+  .mainSection {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .photoSection {
+    width: 391px;
+    flex-shrink: 0;
+    order: 0;
+    margin-bottom: 0;
+  }
+
+  .photoLabel {
+    font-size: 32px;
+    height: 70px;
+  }
+
+  .photoUpload {
+    width: 100%;
+    height: 374px;
+    position: sticky;
+    top: 24px;
+    margin-top: 0;
+  }
+
+  .sectionTitle {
+    font-size: 32px;
+  }
+
+  .ingredientRow {
+    gap: 20px;
+  }
+
+  .btnPrimary {
+    max-width: 280px;
+    font-size: 18px;
+  }
+}

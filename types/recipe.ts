@@ -1,17 +1,19 @@
-import { Category } from "./category";
-import { RecipeIngredient } from "./ingredient";
+import { Category } from './category';
+import { RecipeIngredient } from './ingredient';
 
 export interface Recipe {
-  id: string;
+  _id: string;
   title: string;
+  category: Category;
+  owner: string;
+  area?: string;
+  instructions: string;
   description: string;
+  thumb?: string;
   time: number;
   calories: number;
-  category: Category;
   ingredients: RecipeIngredient[];
-  instructions: string;
-  image?: string;
-  owner: string;
-  createdAt: string; 
-  updatedAt: string; 
+  image: string;
+  createdAt: string;
+  updatedAt: string;
 }

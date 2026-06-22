@@ -1,1 +1,4 @@
-export type Category = "Seafood" | "Lamb" | "Dessert" | "Vegetarian" | "Miscellaneous" | "Breakfast" | "Goat" | "Soup" | "Starter" | "Pasta" | "Beef" | "Vegan" | "Pork" | "Side";
+export type Category = {
+  _id: string;
+  name: string;
+};

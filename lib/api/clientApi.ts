@@ -21,7 +21,7 @@ export type UpdateUserRequest = {
 };
 
 export const updateMe = async (payload: UpdateUserRequest) => {
-  const res = await nextServer.patch<User>('/users/current/', payload);
+  const res = await nextServer.patch<User>('/users/me', payload);
   return res.data;
 };
 
@@ -35,7 +35,7 @@ export const logout = async (): Promise<void> => {
 };
 
 export const getMe = async () => {
-  const { data } = await nextServer.get<User>('/users/current/');
+  const { data } = await nextServer.get<User>('/users/me');
   return data;
 };
 
@@ -60,18 +60,69 @@ export interface FetchRecipesResponse {
 export async function fetchRecipes(
   page: number = 1,
   query: string = '',
-  category?: string
+  category?: string,
+  ingredient?: string
 ): Promise<FetchRecipesResponse> {
   const params = {
-    search: query,
+    keyword: query,
     page,
     perPage: 12,
     category,
+    ingredient,
   };
 
   const { data } = await nextServer.get<FetchRecipesResponse>('/api/recipes', {
     params,
   });
 
+  return data;
+}
+
+export async function fetchRecipeById(recipeId: string): Promise<Recipe> {
+  const { data } = await fetch(`/api/recipes/${recipeId}`).then((res) => {
+    if (!res.ok) throw new Error('Failed to fetch recipe');
+    return res.json();
+  });
+  return data.data;
+}
+
+export interface AddFavoriteResponse {
+  status: number;
+  message: string;
+  data: string[];
+}
+
+export interface RemoveFavoriteResponse {
+  status: number;
+  message: string;
+  data: {
+    recipeId: string;
+  };
+}
+
+// export async function fetchRecipeById(recipeId: string): Promise<Recipe> {
+//   const { data } = await fetch(`/api/recipes/${recipeId}`).then((res) => {
+//     if (!res.ok) throw new Error('Failed to fetch recipe');
+//     return res.json();
+//   });
+//   return data.data;
+// }
+
+export const getFavoriteRecipes = async (): Promise<Recipe[]> => {
+  const res = await nextServer.get('/api/recipes/favorites');
+  return res.data.data; // адаптуй під свій envelope
+};
+
+export async function addToFavorites(
+  recipeId: string
+): Promise<AddFavoriteResponse> {
+  const { data } = await nextServer.post(`/recipes/${recipeId}/favorite`);
+  return data;
+}
+
+export async function removeFromFavorites(
+  recipeId: string
+): Promise<RemoveFavoriteResponse> {
+  const { data } = await nextServer.delete(`/recipes/${recipeId}/favorite`);
   return data;
 }

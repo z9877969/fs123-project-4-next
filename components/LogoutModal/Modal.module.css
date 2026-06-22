@@ -13,11 +13,12 @@
 
 /* Сама картка модалки */
 .modal {
+font-family: var(--font-montserrat), sans-serif;
   position: relative;
-  background-color: #faf3e0; /* Колір фону (підберіть точний з макета) */
-  width: 100%;        /* Обмежуємо ширину */
+  background-color: #faf3e0; 
+  width: 100%;       
   padding: 32px 24px;
-  border-radius: 24px;       /* Закруглені кути */
+  border-radius: 24px;      
   text-align: center;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Тінь для глибини */
   border-radius: 32px;
@@ -32,6 +33,7 @@ height: 316px;
 }
 /* Кнопка закриття (хрестик) */
 .closeButton {
+    font-family: inherit;
   position: absolute;
   top: 16px;
   right: 16px;
@@ -54,7 +56,8 @@ margin: 20px 0;
 }
 
 .cancelButton{
-    border: 1px solid #111;
+font-family: inherit;
+border: 1px solid #111;
 border-radius: 8px;
 padding: 16px;
 width: 314px;
@@ -95,8 +98,4 @@ height: 44px;
 width: 164px;
 height: 44px;
     }
-}
-
-@media (min-width: 1440px) {
-    
 }

@@ -1,7 +1,4 @@
-export interface Ingredient {
-  id: string;
-  name: string;
-}
+import type { IngredientOption } from './ingredient';
 
 export interface RecipeIngredientItem {
   ingredientId: string;
@@ -23,9 +20,9 @@ export interface AddRecipeFormValues {
 }
 
 export interface AddRecipeFormProps {
-  ingredients: Ingredient[];
+  ingredients: IngredientOption[];
 }
 
 export interface DynamicIngredientsProps {
-  ingredients: Ingredient[];
+  ingredients: IngredientOption[];
 }

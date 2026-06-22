@@ -90,6 +90,7 @@
 .addButton:hover,
 .addButton:focus {
     background-color: #875933;
+    opacity: 0.5;
 }
 
 .addButton:disabled {
@@ -106,7 +107,7 @@
 
 .listHeader {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 24px;
     gap: 16px;
     padding-bottom: 8px;
     border-bottom: 1px solid #d9d9d9;
@@ -114,6 +115,10 @@
     line-height: 1.4;
     font-weight: 700;
     color: #000;
+}
+
+.actionHeader {
+    font-size: 0;
 }
 
 .ingredientList {
@@ -126,7 +131,7 @@
 
 .ingredientItem {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 24px;
     gap: 16px;
     align-items: center;
     padding: 12px 0;
@@ -141,27 +146,32 @@
 }
 
 .removeButton {
-    grid-column: 1 / -1;
-    width: 100%;
-    min-height: 40px;
-    padding: 8px 12px;
-    border: 1px solid #d32f2f;
-    border-radius: 6px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
     background-color: transparent;
-    color: #d32f2f;
-    font-size: 14px;
-    line-height: 1.2;
-    font-weight: 600;
     cursor: pointer;
-    transition:
-        background-color 200ms ease,
-        color 200ms ease;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: opacity 200ms ease, color 200ms ease;
 }
 
 .removeButton:hover,
 .removeButton:focus {
-    background-color: #d32f2f;
-    color: #fff;
+    opacity: 0.5;
+}
+
+.deleteIcon {
+    width: 16px;
+    height: 16px;
+    display: block;
+    fill: none;
+    stroke: #000;
+    pointer-events: none;
 }
 
 /* tablet */
@@ -186,22 +196,21 @@
         grid-template-columns: 1fr 1fr auto;
     }
 
-    .removeButton {
-        grid-column: auto;
-        width: auto;
-        min-width: 80px;
-    }
+        .removeButton {
+            width: 24px;
+            height: 24px;
+        }
 }
 
 /* desktop */
 @media screen and (min-width: 1440px) {
     .sectionTitle {
-        margin-bottom: 28px;
-        font-size: 40px;
+        margin-bottom: 24px;
+        font-size: 32px;
     }
 
     .controls {
-        grid-template-columns: 497px 290px;
+        grid-template-columns: 1fr 280px;
         gap: 24px;
     }
 
@@ -211,7 +220,7 @@
     }
 
     .addButton {
-        height: 36px;
+        height: 44px;
         font-size: 14px;
     }
 
@@ -220,10 +229,10 @@
     }
 
     .listHeader {
-        max-width: 304px;
+        max-width: 100%;
     }
 
     .ingredientItem {
-        max-width: 497px;
+        max-width: 100%;
     }
 }

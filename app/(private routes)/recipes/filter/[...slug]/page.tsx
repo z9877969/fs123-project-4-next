@@ -11,15 +11,17 @@ interface PageProps {
 }
 
 export default async function RecipesFilterPage({ params, searchParams }: PageProps) {
-  const searchQuery = searchParams.search || "";
-  
-  const rawCategory = params.slug?.[0] || "all";
-  const currentCategory = rawCategory === "all" ? "" : rawCategory;
+  const resolvedSearchParams = await searchParams;
+  const resolvedParams = await params;
 
-  // 3. Робимо запит за ПЕРШОЮ сторінкою (12 елементів) на сервері.
-  // Заміни fetchRecipesServer на ту функцію, яку ти використовуєш для серверних запитів.
+  const searchQuery = resolvedSearchParams.search || "";
+  const rawCategory = resolvedParams.slug?.[0] || "all";
+  
+  const currentCategory = rawCategory === "all" ? "" : rawCategory;
+  
   const initialData = await fetchRecipesServer({
     page: 1,
+    perPage: 12, 
     search: searchQuery,
     category: currentCategory,
   });

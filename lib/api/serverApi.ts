@@ -1,13 +1,14 @@
-import { nextServer } from "./api";
-import { cookies } from "next/headers";
-import { User } from "@/types/user";
-import { FetchRecipesResponse } from "./clientApi";
-import { api } from "@/app/api/api";
-
+import { nextServer } from './api';
+import { cookies } from 'next/headers';
+import { User } from '@/types/user';
+import { FetchRecipesResponse } from './clientApi';
+import { api } from '@/app/api/api';
+import { Recipe } from '@/types/recipe';
+import { isAxiosError } from 'axios';
 
 export const checkServerSession = async () => {
   const cookieStore = await cookies();
-  const res = await nextServer.get("/auth/session", {
+  const res = await nextServer.get('/auth/session', {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -17,7 +18,7 @@ export const checkServerSession = async () => {
 
 export const getServerMe = async (): Promise<User> => {
   const cookieStore = await cookies();
-  const { data } = await nextServer.get("/users/current", {
+  const { data } = await nextServer.get('/users/current', {
     headers: {
       Cookie: cookieStore.toString(),
     },
@@ -25,9 +26,9 @@ export const getServerMe = async (): Promise<User> => {
   return data;
 };
 
-
 interface FetchServerParams {
   page: number;
+  perPage: number;
   search?: string;
   category?: string;
 }
@@ -46,17 +47,17 @@ export async function fetchRecipesServer({
       search: search || undefined,
       category: category || undefined,
     };
-const res = await api.get('/api/recipes', { 
-  params,
-  headers: {
-    Cookie: cookieStore.toString(),
-  },
+    const res = await api.get('/api/recipes', {
+      params,
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
     });
 
     return res.data;
   } catch (error) {
-    console.error("Server fetch error:", error);
-    
+    console.error('Server fetch error:', error);
+
     return {
       page: 1,
       perPage: 12,
@@ -64,5 +65,28 @@ const res = await api.get('/api/recipes', {
       totalPages: 0,
       recipes: [],
     };
+  }
+}
+
+export async function fetchRecipeByIdServer(
+  recipeId: string
+): Promise<Recipe | null> {
+  const cookieStore = await cookies();
+
+  try {
+    const res = await api.get(`/api/recipes/${recipeId}`, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
+    return res.data.data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      const status = error.response?.status;
+      if (status === 404 || status === 400) {
+        return null;
+      }
+    }
+    throw error;
   }
 }
