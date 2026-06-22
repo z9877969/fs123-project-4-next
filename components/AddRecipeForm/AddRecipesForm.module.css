@@ -123,7 +123,11 @@
 
 .input::placeholder,
 .textarea::placeholder {
-  color: var(--light-gray);
+  color: var(--gray-2);
+}
+
+.selectPlaceholder {
+  color: var(--gray-2);
 }
 
 .input:focus,

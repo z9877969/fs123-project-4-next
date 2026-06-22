@@ -94,138 +94,150 @@ export default function AddRecipeForm({
         console.log(values);
       }}
     >
-      <Form className={s.form}>
-        <h2 className={s.pageTitle}>Add Recipe</h2>
+      {({ values }) => (
+        <Form className={s.form}>
+          <h2 className={s.pageTitle}>Add Recipe</h2>
 
-        <section className={s.mainSection}>
-          <div className={s.generalGrid}>
-            <h3 className={s.sectionTitle}>General Information</h3>
+          <section className={s.mainSection}>
+            <div className={s.generalGrid}>
+              <h3 className={s.sectionTitle}>General Information</h3>
 
-            <div className={s.fieldGroup}>
-              <label className={s.label} htmlFor={`${fieldId}-recipeTitle`}>
-                Recipe Title
-              </label>
-              <Field
-                className={s.input}
-                name="recipeTitle"
-                id={`${fieldId}-recipeTitle`}
-                type="text"
-                placeholder="Enter the name of your recipe"
-              />
-              <ErrorMessage
-                name="recipeTitle"
-                component="p"
-                className={s.error}
-              />
+              <div className={s.fieldGroup}>
+                <label className={s.label} htmlFor={`${fieldId}-recipeTitle`}>
+                  Recipe Title
+                </label>
+                <Field
+                  className={s.input}
+                  name="recipeTitle"
+                  id={`${fieldId}-recipeTitle`}
+                  type="text"
+                  placeholder="Enter the name of your recipe"
+                />
+                <ErrorMessage
+                  name="recipeTitle"
+                  component="p"
+                  className={s.error}
+                />
+              </div>
+
+              <div className={s.fieldGroup}>
+                <label
+                  className={s.label}
+                  htmlFor={`${fieldId}-recipeDescription`}
+                >
+                  Recipe Description
+                </label>
+                <Field
+                  className={s.textarea}
+                  name="recipeDescription"
+                  id={`${fieldId}-recipeDescription`}
+                  as="textarea"
+                  placeholder="Enter a brief description of your recipe"
+                />
+                <ErrorMessage
+                  name="recipeDescription"
+                  component="p"
+                  className={s.error}
+                />
+              </div>
+
+              <div className={s.fieldGroup}>
+                <label className={s.label} htmlFor={`${fieldId}-cookingTime`}>
+                  Cooking time in minutes
+                </label>
+                <Field
+                  className={s.input}
+                  name="cookingTime"
+                  id={`${fieldId}-cookingTime`}
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="10"
+                />
+                <ErrorMessage
+                  name="cookingTime"
+                  component="p"
+                  className={s.error}
+                />
+              </div>
+              <div className={s.fieldGroup}>
+                <label className={s.label} htmlFor={`${fieldId}-calories`}>
+                  Calories
+                </label>
+                <Field
+                  className={s.input}
+                  name="calories"
+                  id={`${fieldId}-calories`}
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="150 cals"
+                />
+                <ErrorMessage
+                  name="calories"
+                  component="p"
+                  className={s.error}
+                />
+              </div>
+              <div className={s.fieldGroup}>
+                <label className={s.label} htmlFor={`${fieldId}-category`}>
+                  Category
+                </label>
+                <Field
+                  className={`${s.select} ${!values.category ? s.selectPlaceholder : ''}`}
+                  name="category"
+                  id={`${fieldId}-category`}
+                  as="select"
+                >
+                  <option value="" disabled hidden>
+                    Soup
+                  </option>
+                  {categories.map(({ _id, name }) => (
+                    <option key={_id} value={_id}>
+                      {name}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage
+                  name="category"
+                  component="p"
+                  className={s.error}
+                />
+              </div>
             </div>
+
+            <DynamicIngredients ingredients={ingredients} />
 
             <div className={s.fieldGroup}>
               <label
-                className={s.label}
-                htmlFor={`${fieldId}-recipeDescription`}
+                className={s.instructionTitle}
+                htmlFor={`${fieldId}-instructions`}
               >
-                Recipe Description
+                Instructions
               </label>
               <Field
                 className={s.textarea}
-                name="recipeDescription"
-                id={`${fieldId}-recipeDescription`}
+                name="instructions"
+                id={`${fieldId}-instructions`}
                 as="textarea"
-                placeholder="Enter a brief description of your recipe"
+                placeholder="Enter a text"
               />
               <ErrorMessage
-                name="recipeDescription"
+                name="instructions"
                 component="p"
                 className={s.error}
               />
             </div>
 
-            <div className={s.fieldGroup}>
-              <label className={s.label} htmlFor={`${fieldId}-cookingTime`}>
-                Cooking time in minutes
-              </label>
-              <Field
-                className={s.input}
-                name="cookingTime"
-                id={`${fieldId}-cookingTime`}
-                type="text"
-                inputMode="numeric"
-                placeholder="10"
-              />
-              <ErrorMessage
-                name="cookingTime"
-                component="p"
-                className={s.error}
-              />
-            </div>
-            <div className={s.fieldGroup}>
-              <label className={s.label} htmlFor={`${fieldId}-calories`}>
-                Calories
-              </label>
-              <Field
-                className={s.input}
-                name="calories"
-                id={`${fieldId}-calories`}
-                type="text"
-                inputMode="numeric"
-                placeholder="150 cals"
-              />
-              <ErrorMessage name="calories" component="p" className={s.error} />
-            </div>
-            <div className={s.fieldGroup}>
-              <label className={s.label} htmlFor={`${fieldId}-category`}>
-                Category
-              </label>
-              <Field
-                className={s.select}
-                name="category"
-                id={`${fieldId}-category`}
-                as="select"
-              >
-                <option value="" disabled hidden>Soup</option>
-                {categories.map(({ _id, name }) => (
-                  <option key={_id} value={_id}>
-                    {name}
-                  </option>
-                ))}
-              </Field>
-              <ErrorMessage name="category" component="p" className={s.error} />
-            </div>
-          </div>
+            <button type="submit" className={s.btnPrimary}>
+              Publish Recipe
+            </button>
+          </section>
 
-          <DynamicIngredients ingredients={ingredients} />
-
-          <div className={s.fieldGroup}>
-            <label
-              className={s.instructionTitle}
-              htmlFor={`${fieldId}-instructions`}
-            >
-              Instructions
-            </label>
-            <Field
-              className={s.textarea}
-              name="instructions"
-              id={`${fieldId}-instructions`}
-              as="textarea"
-              placeholder="Enter a text"
-            />
-            <ErrorMessage
-              name="instructions"
-              component="p"
-              className={s.error}
-            />
-          </div>
-
-          <button type="submit" className={s.btnPrimary}>
-            Publish Recipe
-          </button>
-        </section>
-
-        <section className={s.photoSection}>
-          <h3 className={s.photoLabel}>Upload Photo</h3>
-          <PhotoUpload />
-        </section>
-      </Form>
+          <section className={s.photoSection}>
+            <h3 className={s.photoLabel}>Upload Photo</h3>
+            <PhotoUpload />
+          </section>
+        </Form>
+      )}
     </Formik>
   );
 }
