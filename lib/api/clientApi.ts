@@ -3,6 +3,7 @@ import { nextServer } from './api';
 import { User } from '@/types/user';
 
 export type RegisterRequest = {
+  name: string;
   email: string;
   password: string;
 };
