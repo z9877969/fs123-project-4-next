@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import css from './SearchBox.module.css';
+import style from '@/app/Home.module.css';
 
 interface SearchBoxProps {
   onSearch: (value: string) => void;
@@ -26,18 +27,24 @@ function SearchBox({ onSearch, isLoading }: SearchBoxProps) {
   };
   return (
     <>
-      <form className="css.form" onSubmit={handleSubmit}>
-        <input
-          className={css.input}
-          name="query"
-          type="text"
-          placeholder="Search recipes"
-        />
-        <button type="submit" disabled={isLoading}>
-          search
-        </button>
-      </form>
-      {error && <p className={css.error}>{error}</p>}
+      <div className={style.container}>
+        <form className={css.form} onSubmit={handleSubmit}>
+          <input
+            className={css.input}
+            name="query"
+            type="text"
+            placeholder="Search recipes"
+          />
+          <button
+            className={css.submit__btn}
+            type="submit"
+            disabled={isLoading}
+          >
+            search
+          </button>
+        </form>
+        {error && <p className={css.error}>{error}</p>}
+      </div>
     </>
   );
 }

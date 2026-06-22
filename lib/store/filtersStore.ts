@@ -28,6 +28,7 @@ type FiltrersStore = {
   //Скидає всі фільтри (keyword, category, ingredient) до початкових порожніх рядків
   clearFilters: () => void;
   
+  //Змінює поточну сторінку (для пагінації/load more)
   setPage: (page: number) => void;
 };
 
@@ -44,14 +45,22 @@ export const useFiltersStore = create<FiltrersStore>()((set) => ({
   totalPages: 0,
   isLoading: false,
   page: 1,
+
   filtersChange: (newFilters) =>
     set((state) => ({ filters: { ...state.filters, ...newFilters }, page: 1 })),
+  
   setRecipesData: (data) =>
     set(() => ({
       recipes: data.recipes,
       totalRecipes: data.totalRecipes,
       totalPages: data.totalPages,
     })),
+  
   setIsLoading: (loading) => set(() => ({ isLoading: loading })),
-  clearFilters: () => set(() => ({ filters: initialFilters })),
+  
+  // Додали скидання сторінки при очищенні фільтрів
+  clearFilters: () => set(() => ({ filters: initialFilters, page: 1 })),
+  
+  // ДОДАНО: Реалізація функції setPage
+  setPage: (newPage) => set(() => ({ page: newPage })),
 }));

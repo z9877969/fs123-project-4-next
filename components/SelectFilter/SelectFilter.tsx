@@ -1,7 +1,8 @@
+import { ChangeEvent } from 'react';
+
 import { Category } from '@/types/category';
 import { Ingredient } from '@/types/ingredient';
-
-import { ChangeEvent } from 'react';
+import css from './SelectFilter.module.css';
 
 interface SelectFiltersProps {
   options: Ingredient[] | Category[];
@@ -21,9 +22,9 @@ function SelectFilter({
   };
   return (
     <>
-      <div className="filter__field">
+      <div className={css.filter__field}>
         <select
-          className="filter__select"
+          className={css.filter__select}
           value={value}
           onChange={handleChange}
         >

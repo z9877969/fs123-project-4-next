@@ -99,8 +99,6 @@ export interface RemoveFavoriteResponse {
   };
 }
 
-<<<<<<< HEAD
-=======
 // export async function fetchRecipeById(recipeId: string): Promise<Recipe> {
 //   const { data } = await fetch(`/api/recipes/${recipeId}`).then((res) => {
 //     if (!res.ok) throw new Error('Failed to fetch recipe');
@@ -113,7 +111,6 @@ export const getFavoriteRecipes = async (): Promise<Recipe[]> => {
   const res = await nextServer.get('/api/recipes/favorites');
   return res.data.data; // адаптуй під свій envelope
 };
->>>>>>> 45154d31eddfcf451a1acf89a999daeede1f199f
 
 export async function addToFavorites(
   recipeId: string
