@@ -50,7 +50,7 @@ export default function RecipeCard({
 
       setUser({ ...user, favorites: updatedFavorites });
 
-      if (variant === 'favorite' && isFavorite) {
+      if (variant === 'favorite') {
         onRemove?.(recipeId);
       }
 
