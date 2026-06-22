@@ -4,6 +4,7 @@ import { User } from '@/types/user';
 import { FetchRecipesResponse } from './clientApi';
 import { api } from '@/app/api/api';
 import { Recipe } from '@/types/recipe';
+import { isAxiosError } from 'axios';
 
 export const checkServerSession = async () => {
   const cookieStore = await cookies();
@@ -67,12 +68,25 @@ export async function fetchRecipesServer({
   }
 }
 
-export async function fetchRecipeByIdServer(recipeId: string): Promise<Recipe> {
+export async function fetchRecipeByIdServer(
+  recipeId: string
+): Promise<Recipe | null> {
   const cookieStore = await cookies();
-  const res = await api.get(`/api/recipes/${recipeId}`, {
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-  });
-  return res.data.data;
+
+  try {
+    const res = await api.get(`/api/recipes/${recipeId}`, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
+    return res.data.data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      const status = error.response?.status;
+      if (status === 404 || status === 400) {
+        return null;
+      }
+    }
+    throw error;
+  }
 }

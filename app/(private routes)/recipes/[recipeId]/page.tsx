@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 import RecipeDetailsClient from './RecipeDetails.client';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { fetchRecipeByIdServer } from '@/lib/api/serverApi';
 
 type Props = {
@@ -13,7 +14,13 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { recipeId } = await params;
+
   const recipe = await fetchRecipeByIdServer(recipeId);
+
+  if (!recipe) {
+    return { title: 'Рецепт не знайдено' };
+  }
+
   return {
     title: `Note: ${recipe.title}`,
     description: recipe.description.slice(0, 30),
@@ -37,6 +44,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const RecipeDetails = async ({ params }: Props) => {
   const { recipeId } = await params;
+
+  const recipe = await fetchRecipeByIdServer(recipeId);
+  if (!recipe) notFound();
+
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({

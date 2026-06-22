@@ -83,3 +83,16 @@ export async function fetchRecipeById(recipeId: string): Promise<Recipe> {
   });
   return data.data;
 }
+
+export const getFavoriteRecipes = async (): Promise<Recipe[]> => {
+  const res = await nextServer.get('/api/recipes/favorites');
+  return res.data.data;
+};
+
+export const addToFavorites = async (recipeId: string): Promise<void> => {
+  await nextServer.post(`/api/recipes/${recipeId}/favorite`);
+};
+
+export const removeFromFavorites = async (recipeId: string): Promise<void> => {
+  await nextServer.delete(`/api/recipes/${recipeId}/favorite`);
+};
