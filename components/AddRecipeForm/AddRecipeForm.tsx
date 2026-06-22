@@ -1,7 +1,8 @@
 'use client';
 
-import { Formik, Form, Field } from 'formik';
-import { useId } from 'react';
+import { Formik, Form, Field, useFormikContext } from 'formik';
+import { useId, useRef, useState, useEffect } from 'react';
+import Image from 'next/image';
 import { addRecipeValidationSchema } from '@/lib/validation/addRecipeValidationSchema';
 import DynamicIngredients from './DynamicIngredients/DynamicIngredients';
 import s from './AddRecipesForm.module.css';
@@ -9,6 +10,59 @@ import {
   AddRecipeFormValues,
   AddRecipeFormProps,
  } from '@/types/addRecipe';
+
+function PhotoUpload() {
+  const { setFieldValue } = useFormikContext<AddRecipeFormValues>();
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const prevUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (prevUrlRef.current) URL.revokeObjectURL(prevUrlRef.current);
+    };
+  }, []);
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0] ?? null;
+    if (prevUrlRef.current) URL.revokeObjectURL(prevUrlRef.current);
+    if (file) {
+      const url = URL.createObjectURL(file);
+      prevUrlRef.current = url;
+      setPreviewUrl(url);
+      setFieldValue('photo', file);
+    } else {
+      prevUrlRef.current = null;
+      setPreviewUrl(null);
+      setFieldValue('photo', null);
+    }
+  }
+
+  return (
+    <div className={s.photoUpload} onClick={() => inputRef.current?.click()}>
+      {previewUrl ? (
+        <Image
+          src={previewUrl}
+          alt="Recipe preview"
+          fill
+          className={s.photoPreview}
+          style={{ objectFit: 'cover' }}
+        />
+      ) : (
+        <svg width="44" height="38" viewBox="0 0 38 32" aria-hidden="true" className={s.photoIcon}>
+          <use href="/icons/icons.svg#icon-photo" />
+        </svg>
+      )}
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className={s.photoInput}
+        onChange={handleChange}
+      />
+    </div>
+  );
+}
 
 const initialValues: AddRecipeFormValues = {
   recipeTitle: '',
@@ -35,6 +89,8 @@ export default function AddRecipeForm({ ingredients }: AddRecipeFormProps) {
       }}
     >
       <Form className={s.form}>
+        <h2 className={s.pageTitle}>Add Recipe</h2>
+
         <section className={s.mainSection}>
           <h3 className={s.sectionTitle}>General Information</h3>
 
@@ -67,7 +123,7 @@ export default function AddRecipeForm({ ingredients }: AddRecipeFormProps) {
           <div className={s.ingredientRow}>
             <div className={s.fieldGroup}>
               <label className={s.label} htmlFor={`${fieldId}-cookingTime`}>
-                Cooking time (min)
+                Cooking time in minutes
               </label>
               <Field
                 className={s.input}
@@ -127,11 +183,8 @@ export default function AddRecipeForm({ ingredients }: AddRecipeFormProps) {
         </section>
 
         <section className={s.photoSection}>
-          <div className={s.photoUpload}>
-            <span>📷</span>
-            <span>Upload photo</span>
-            <input name="photo" type="file" accept="image/*" />
-          </div>
+          <h3 className={s.photoLabel}>Upload Photo</h3>
+          <PhotoUpload />
         </section>
       </Form>
     </Formik>

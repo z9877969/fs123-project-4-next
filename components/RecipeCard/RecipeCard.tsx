@@ -81,13 +81,14 @@ export default function RecipeCard({
   return (
     <>
       <article className={css.card}>
-        <Image
-          src={recipe.image}
+      {recipe.thumb ? <Image
+          src={recipe.thumb}
           alt={recipe.title}
           width={337}
           height={230}
           className={css.image}
-        />
+        /> : <></>}
+        
         <div className={css.content}>
           <div className={css.header}>
             <h3 className={css.title}>{recipe.title}</h3>

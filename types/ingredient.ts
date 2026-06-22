@@ -1,13 +1,13 @@
-interface IngredientDetails {
-  id: string;
+export interface Ingredient {
+  _id: string;
   name: string;
   desc: string;
   img: string;
 }
 
-export type IngredientOption = Pick<IngredientDetails, 'id' | 'name'>;
+export type IngredientOption = Pick<Ingredient, '_id' | 'name'>;
 
 export interface RecipeIngredient {
-  id: IngredientDetails; 
+  id: Ingredient;
   measure: string;
 }

@@ -13,9 +13,7 @@ export interface Recipe {
   time: number;
   calories: number;
   ingredients: RecipeIngredient[];
-  instructions: string;
   image: string;
-  owner: string;
   createdAt: string;
   updatedAt: string;
 }

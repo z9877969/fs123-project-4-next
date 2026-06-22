@@ -1,26 +1,26 @@
-"use client";
-import Image from "next/image";
-import css from "./EditProfilePage.module.css";
-import { useEffect, useState } from "react";
-import { getMe, updateMe } from "@/lib/api/clientApi";
-import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/lib/store/authStore";
+'use client';
+import Image from 'next/image';
+import css from './EditProfilePage.module.css';
+import { useEffect, useState } from 'react';
+import { getMe, updateMe } from '@/lib/api/clientApi';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/lib/store/authStore';
 
 export default function Edit() {
   const router = useRouter();
 
   const setUser = useAuthStore((state) => state.setUser);
 
-  const [userName, setUserName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
-  const [error, setError] = useState("");
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userAvatar, setUserAvatar] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     getMe().then((user) => {
-      setUserName(user.username ?? "");
-      setUserEmail(user.email ?? "");
-      setUserAvatar(user.avatar ?? "");
+      setUserName(user.name ?? '');
+      setUserEmail(user.email ?? '');
+      setUserAvatar(user.avatar ?? '');
     });
   }, []);
 
@@ -37,14 +37,14 @@ export default function Edit() {
         username: userName,
         avatar: userAvatar,
       });
-      router.push("/profile");
+      router.push('/profile');
     } catch {
-      setError("Something went wrong");
+      setError('Something went wrong');
     }
   };
 
   const handleCancel = () => {
-    router.push("/profile");
+    router.push('/profile');
   };
   return (
     <main className={css.mainContent}>
