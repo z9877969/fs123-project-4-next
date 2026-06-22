@@ -1,12 +1,15 @@
 'use client'
 import css from '@/components/RecipesList/RecipesList.module.css'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RecipeCard from "@/components/RecipeCard/RecipeCard"; 
 import LoadMoreBtn from '@/components/LoadMoreBtn/LoadMoreBtn';
 import { fetchRecipes } from '@/lib/api/clientApi';
 import { Recipe } from '@/types/recipe';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+
+// ДОДАЙ ІМПОРТ СВОГО СТОРУ (шлях може відрізнятися, перевір його)
+import { useFiltersStore } from '@/lib/store/filtersStore'; 
 
 interface RecipeListProps {
   initialRecipes: Recipe[];
@@ -18,36 +21,72 @@ interface RecipeListProps {
 
 export default function RecipesList({
   initialRecipes,
-  totalPages,
-  totalRecipes,
+  totalPages: initialTotalPages,
+  totalRecipes: initialTotalRecipes,
   searchQuery = "",
   currentCategory = "",
 }: RecipeListProps) {
-    const [recipes, setRecipes] = useState<Recipe[]>(initialRecipes);
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  // 1. ДІСТАЄМО СТАН ТА ЕКШЕНИ З ZUSTAND
+  const { 
+    recipes, 
+    totalRecipes, 
+    totalPages, 
+    setRecipesData, 
+    filters,
+    isLoading,
+    setIsLoading,
+    page,
+    setPage 
+  } = useFiltersStore();
 
-  const hasMore = page < totalPages;
+
+  // 2. ГІДРАТАЦІЯ: Записуємо серверні дані в Zustand при першому завантаженні сторінки
+  useEffect(() => {
+    setRecipesData({
+      recipes: initialRecipes,
+      totalRecipes: initialTotalRecipes,
+      totalPages: initialTotalPages,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialRecipes, initialTotalRecipes, initialTotalPages]);
+
+ 
+  // Щоб уникнути блимання порожнього екрану до спрацьовування useEffect,
+  // використовуємо initialRecipes, якщо в сторі ще нічого немає.
+  const displayRecipes = recipes.length > 0 ? recipes : initialRecipes;
+  const displayTotal = totalRecipes > 0 || recipes.length > 0 ? totalRecipes : initialTotalRecipes;
+  const displayTotalPages = totalPages > 0 || recipes.length > 0 ? totalPages : initialTotalPages;
+
+  const hasMore = page < displayTotalPages;
 
   const handleLoadMore = async () => {
-   if (isLoading || !hasMore) return; 
+    if (isLoading || !hasMore) return; 
 
     setIsLoading(true);
     try {
       const nextPage = page + 1;
       
-      const data = await fetchRecipes(nextPage, searchQuery, currentCategory);
+      // Запит робимо вже з урахуванням активних фільтрів зі стору
+      const data = await fetchRecipes(
+        nextPage, 
+        filters.keyword || searchQuery, 
+        filters.category || currentCategory
+      );
       
-      setRecipes((prevRecipes) => [...prevRecipes, ...data.recipes]);
+      // 3. ДОДАЄМО нові рецепти до ТИХ, ЩО ВЖЕ Є В СТОРІ
+      setRecipesData({
+        recipes: [...displayRecipes, ...data.recipes],
+        totalRecipes: data.totalRecipes,
+        totalPages: data.totalPages,
+      });
+      
       setPage(nextPage);
     } catch (error) {
-        const iziToast = (await import("izitoast")).default;
-
-        iziToast.error({
-          title: "Error",
-          message: "Failed to load more recipes. Please try again later.",
-          position: "topRight",
-        });
+      iziToast.error({
+        title: "Error",
+        message: "Failed to load more recipes. Please try again later.",
+        position: "topRight",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -57,7 +96,7 @@ export default function RecipesList({
     <>
         <h1 className={css.title}>Recipes</h1>
         <div className={css.meta}>
-          <span className={css.count}>{totalRecipes} recipes</span>
+          <span className={css.count}>{displayTotal} recipes</span>
           <button className={css.filterBtn} aria-label="Filters">
             Filters
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -67,7 +106,8 @@ export default function RecipesList({
         </div>
 
       <ul className={css.grid}>
-        {recipes.map((recipe) => (
+        {/* Використовуємо displayRecipes для рендеру */}
+        {displayRecipes.map((recipe) => (
         <li key={recipe._id} className={css.gridItem}>
               <RecipeCard recipe={recipe} />
           </li>
