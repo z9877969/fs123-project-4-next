@@ -9,16 +9,17 @@ export async function GET(request: NextRequest) {
     const cookieStore = await cookies();
     const { searchParams } = request.nextUrl;
 
-    const search = searchParams.get('search') || undefined;
+    const keyword = searchParams.get('keyword') || undefined;
     const page = Number(searchParams.get('page')) || 1;
-
     const category = searchParams.get('category') || undefined;
+    const ingredient = searchParams.get('ingredient') || undefined;
 
     const params = {
       page,
       perPage: 12,
-      search,
+      keyword,
       category,
+      ingredient,
     };
 
     const res = await api('/api/recipes', {

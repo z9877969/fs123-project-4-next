@@ -1,4 +1,4 @@
-import type { IngredientOption } from '@/types/ingredient';
+import type { IngredientOption, IngredientOptionFilter } from '@/types/ingredient';
 import { nextServer } from './api';
 
 interface BackendIngredient {
@@ -15,4 +15,12 @@ export async function getIngredients(): Promise<IngredientOption[]> {
     id: ingredient.id ?? ingredient._id,
     name: ingredient.name,
   }));
+}
+
+export async function getIngredientsFilter(): Promise<
+  IngredientOptionFilter[]
+> {
+  const res = await fetch('/api/ingredients');
+  if (!res.ok) throw new Error('Failed to fetch ingredients');
+  return res.json();
 }
