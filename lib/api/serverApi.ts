@@ -5,25 +5,87 @@ import { FetchRecipesResponse } from './clientApi';
 import { api } from '@/app/api/api';
 import { Recipe } from '@/types/recipe';
 import { isAxiosError } from 'axios';
+import { parse } from 'cookie';
 
-export const checkServerSession = async () => {
+const applySetCookieToStore = (
+  cookieStore: Awaited<ReturnType<typeof cookies>>,
+  setCookieHeader?: string | string[]
+) => {
+  if (!setCookieHeader) {
+    return;
+  }
+
+  const cookieArray = Array.isArray(setCookieHeader)
+    ? setCookieHeader
+    : [setCookieHeader];
+
+  for (const cookieStr of cookieArray) {
+    const parsed = parse(cookieStr);
+
+    const options = {
+      expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
+      path: parsed.Path,
+      maxAge: parsed['Max-Age'] ? Number(parsed['Max-Age']) : undefined,
+    };
+
+    if (parsed.accessToken) {
+      cookieStore.set('accessToken', parsed.accessToken, options);
+    }
+    if (parsed.refreshToken) {
+      cookieStore.set('refreshToken', parsed.refreshToken, options);
+    }
+    if (parsed.sessionId) {
+      cookieStore.set('sessionId', parsed.sessionId, options);
+    }
+  }
+};
+
+export const checkServerSession = async (cookieHeader?: string) => {
   const cookieStore = await cookies();
-  const res = await nextServer.get('/auth/session', {
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-  });
+  const finalCookies = cookieHeader || cookieStore.toString();
+
+  const res = await api.post(
+    '/auth/refresh',
+    {},
+    {
+      headers: {
+        Cookie: finalCookies,
+      },
+    }
+  );
+
+  applySetCookieToStore(cookieStore, res.headers['set-cookie']);
+
   return res;
 };
 
 export const getServerMe = async (): Promise<User> => {
   const cookieStore = await cookies();
-  const { data } = await nextServer.get('/users/current', {
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-  });
-  return data;
+
+  try {
+    const { data } = await nextServer.get('/users/current', {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response?.status === 401) {
+      try {
+        await checkServerSession(cookieStore.toString());
+
+        const { data } = await nextServer.get('/users/current', {
+          headers: {
+            Cookie: cookieStore.toString(),
+          },
+        });
+        return data;
+      } catch {
+        throw error;
+      }
+    }
+    throw error;
+  }
 };
 
 interface FetchServerParams {

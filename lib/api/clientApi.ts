@@ -91,7 +91,7 @@ export async function fetchRecipes(
     ingredient,
   };
 
-  const { data } = await nextServer.get<FetchRecipesResponse>('/api/recipes', {
+  const { data } = await nextServer.get<FetchRecipesResponse>('/recipes', {
     params,
   });
 
@@ -129,20 +129,20 @@ export interface RemoveFavoriteResponse {
 // }
 
 export const getFavoriteRecipes = async (): Promise<Recipe[]> => {
-  const res = await nextServer.get('/api/recipes/favorites');
+  const res = await nextServer.get('/recipes/favorites');
   return res.data.data; // адаптуй під свій envelope
 };
 
 export async function addToFavorites(
   recipeId: string
 ): Promise<AddFavoriteResponse> {
-  const { data } = await nextServer.post(`/api/recipes/${recipeId}/favorite`);
+  const { data } = await nextServer.post(`/recipes/${recipeId}/favorite`);
   return data;
 }
 
 export async function removeFromFavorites(
   recipeId: string
 ): Promise<RemoveFavoriteResponse> {
-  const { data } = await nextServer.delete(`/api/recipes/${recipeId}/favorite`);
+  const { data } = await nextServer.delete(`/recipes/${recipeId}/favorite`);
   return data;
 }

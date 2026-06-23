@@ -19,13 +19,17 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith(route)
   );
 
-  if (!accessToken) {
-    if (refreshToken) {
+  const isAuthenticated = Boolean(accessToken);
+  const hasSessionCookie = Boolean(refreshToken || sessionId);
+
+  if (!isAuthenticated && hasSessionCookie) {
+    try {
       const data = await checkServerSession();
       const setCookie = data.headers['set-cookie'];
 
       if (setCookie) {
         const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
+
         for (const cookieStr of cookieArray) {
           const parsed = parse(cookieStr);
           const options = {
@@ -33,6 +37,7 @@ export async function proxy(request: NextRequest) {
             path: parsed.Path,
             maxAge: Number(parsed['Max-Age']),
           };
+
           if (parsed.accessToken)
             cookieStore.set('accessToken', parsed.accessToken, options);
           if (parsed.refreshToken)
@@ -53,14 +58,18 @@ export async function proxy(request: NextRequest) {
           });
         }
       }
-    }
-    if (isPublicRoute) {
-      return NextResponse.next();
-    }
 
+      return response;
+    } catch (error) {
+      console.error('Middleware automatic session refresh error:', error);
+    }
+  }
+
+  if (!isAuthenticated) {
     if (isPrivateRoute) {
       return NextResponse.redirect(new URL('/sign-in', request.url));
     }
+    return NextResponse.next();
   }
 
   if (isPublicRoute) {
@@ -69,6 +78,8 @@ export async function proxy(request: NextRequest) {
   if (isPrivateRoute) {
     return NextResponse.next();
   }
+
+  return NextResponse.next();
 }
 
 export const config = {
