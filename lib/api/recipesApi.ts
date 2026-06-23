@@ -39,7 +39,7 @@ export interface AddRecipePayload {
   time: number;
   calories: number;
   category: string;
-  ingredients: { ingredientId: string; amount: string }[];
+  ingredients: { id: string; measure: string }[];
   instructions: string;
   photo?: File | null;
 }

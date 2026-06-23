@@ -102,10 +102,12 @@ export default function AddRecipeForm({
             time: Number(values.cookingTime),
             calories: Number(values.calories),
             category: values.category,
-            ingredients: values.ingredientsList.map(({ ingredientId, amount }) => ({
-              ingredientId,
-              amount,
-            })),
+            ingredients: values.ingredientsList.map(
+              ({ ingredientId, amount }) => ({
+                ingredientId,
+                amount,
+              })
+            ),
             instructions: values.instructions,
             photo: values.photo,
           });
@@ -121,7 +123,7 @@ export default function AddRecipeForm({
       {({ values, isSubmitting }) => (
         <Form className={s.form}>
           <h2 className={s.pageTitle}>Add Recipe</h2>
-        
+
           <section className={s.mainSection}>
             <div className={s.generalGrid}>
               <h3 className={s.sectionTitle}>General Information</h3>
@@ -173,7 +175,9 @@ export default function AddRecipeForm({
                   className={s.input}
                   name="cookingTime"
                   id={`${fieldId}-cookingTime`}
-                  type="text"
+                  type="number"
+                  min={1}
+                  max={360}
                   inputMode="numeric"
                   placeholder="10"
                 />
@@ -215,7 +219,7 @@ export default function AddRecipeForm({
                     Soup
                   </option>
                   {categories.map(({ _id, name }) => (
-                    <option key={_id} value={_id}>
+                    <option key={_id} value={name}>
                       {name}
                     </option>
                   ))}
@@ -251,7 +255,11 @@ export default function AddRecipeForm({
               />
             </div>
 
-            <button type="submit" className={s.btnPrimary} disabled={isSubmitting}>
+            <button
+              type="submit"
+              className={s.btnPrimary}
+              disabled={isSubmitting}
+            >
               {isSubmitting ? 'Publishing...' : 'Publish Recipe'}
             </button>
           </section>
