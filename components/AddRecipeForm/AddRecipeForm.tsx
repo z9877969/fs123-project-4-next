@@ -104,8 +104,8 @@ export default function AddRecipeForm({
             category: values.category,
             ingredients: values.ingredientsList.map(
               ({ ingredientId, amount }) => ({
-                ingredientId,
-                amount,
+                id: ingredientId,
+                measure: amount,
               })
             ),
             instructions: values.instructions,
