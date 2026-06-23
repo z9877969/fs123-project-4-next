@@ -25,7 +25,6 @@
   font-size: 12px;
   color: var(--black);
   cursor: pointer;
-  /* padding: 4px; */
 }
 
 .filters__block {
@@ -33,7 +32,6 @@
   position: absolute;
   top: 40px;
   right: 0;
-  /* width: 296px; */
   width: 100%;
   background-color: var(--white);
   box-shadow:
@@ -43,8 +41,6 @@
   border-radius: 4px;
   padding: 8px;
   height: 222px;
-  /* z-index: 10; */
-  /* height: auto; */
 }
 
 .filters__block.isOpen {
@@ -55,7 +51,7 @@
 
 .mobile__close {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
   margin-bottom: 5px;
@@ -96,7 +92,8 @@
 
 @media screen and (min-width: 394px) {
   .filters__block {
-    width: 296px;
+    width: 320px;
+    padding: 16px 12px;
   }
 }
 

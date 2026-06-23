@@ -27,24 +27,18 @@ function SearchBox({ onSearch, isLoading }: SearchBoxProps) {
   };
   return (
     <>
-      <div className={style.container}>
-        <form className={css.form} onSubmit={handleSubmit}>
-          <input
-            className={css.input}
-            name="query"
-            type="text"
-            placeholder="Search recipes"
-          />
-          <button
-            className={css.submit__btn}
-            type="submit"
-            disabled={isLoading}
-          >
-            search
-          </button>
-        </form>
-        {error && <p className={css.error}>{error}</p>}
-      </div>
+      <form className={css.form} onSubmit={handleSubmit}>
+        <input
+          className={css.input}
+          name="query"
+          type="text"
+          placeholder="Search recipes"
+        />
+        <button className={css.submit__btn} type="submit" disabled={isLoading}>
+          search
+        </button>
+      </form>
+      {error && <p className={css.error}>{error}</p>}
     </>
   );
 }
