@@ -123,7 +123,11 @@
 
 .input::placeholder,
 .textarea::placeholder {
-  color: var(--light-gray);
+  color: var(--gray-2);
+}
+
+.selectPlaceholder {
+  color: var(--gray-2);
 }
 
 .input:focus,
@@ -158,6 +162,13 @@
   column-gap: 16px;
   row-gap: 18px;
   width: 100%;
+}
+
+.error {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--red);
+  margin-top: -8px;
 }
 
 .btnPrimary {

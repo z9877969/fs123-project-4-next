@@ -1,4 +1,5 @@
 import type { IngredientOption } from './ingredient';
+import type { Category } from './category';
 
 export interface RecipeIngredientItem {
   ingredientId: string;
@@ -9,8 +10,8 @@ export interface RecipeIngredientItem {
 export interface AddRecipeFormValues {
   recipeTitle: string;
   recipeDescription: string;
-  cookingTime: number;
-  calories: number;
+  cookingTime: number | '';
+  calories: number | '';
   category: string;
   photo: File | null;
   selectedIngredientId: string;
@@ -21,6 +22,7 @@ export interface AddRecipeFormValues {
 
 export interface AddRecipeFormProps {
   ingredients: IngredientOption[];
+  categories: Category[];
 }
 
 export interface DynamicIngredientsProps {
