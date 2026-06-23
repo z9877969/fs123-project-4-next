@@ -11,9 +11,8 @@ export async function GET(request: NextRequest) {
 
     const search = searchParams.get('search') || undefined;
     const page = Number(searchParams.get('page')) || 1;
-    
-    const category = searchParams.get('category') ||  undefined;
-    
+
+    const category = searchParams.get('category') || undefined;
 
     const params = {
       page,
@@ -22,7 +21,7 @@ export async function GET(request: NextRequest) {
       category,
     };
 
-    const res = await api('/api/recipes', { 
+    const res = await api('/api/recipes', {
       params,
       headers: {
         Cookie: cookieStore.toString(),
@@ -30,17 +29,16 @@ export async function GET(request: NextRequest) {
     });
 
     return NextResponse.json(res.data, { status: res.status });
-
   } catch (error) {
     if (isAxiosError(error)) {
       logErrorResponse(error.response?.data);
-      
+
       return NextResponse.json(
         { error: error.message, response: error.response?.data },
-        { status: error.response?.status || 500 } 
+        { status: error.response?.status || 500 }
       );
     }
-    
+
     logErrorResponse({ message: (error as Error).message });
     return NextResponse.json(
       { error: 'Internal Server Error' },
@@ -55,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
-    const res = await api.post('/notes', body, {
+    const res = await api.post('/recipes', body, {
       headers: {
         Cookie: cookieStore.toString(),
         'Content-Type': 'application/json',
