@@ -1,11 +1,9 @@
 import { ChangeEvent } from 'react';
 
-import { Category } from '@/types/category';
-import { Ingredient } from '@/types/ingredient';
 import css from './SelectFilter.module.css';
 
 interface SelectFiltersProps {
-  options: Ingredient[] | Category[];
+  options: { _id: string; name: string }[];
   placeholder: string;
   value: string;
   onChange: (value: string) => void;

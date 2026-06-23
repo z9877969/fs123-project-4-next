@@ -1,9 +1,14 @@
 import { Category } from '@/types/category';
-import { nextServer } from './api';
 
 export async function getCategories(): Promise<Category[]> {
-  const { data } = await nextServer.get<Category[]>('/categories');
-  console.log('Categories: ', data);
+  // Server component: потрібен абсолютний URL напряму на бекенд
+  // Client component: відносний URL через Next.js proxy
+  const url =
+    typeof window === 'undefined'
+      ? `${process.env.NEXT_BACKEND_API_URL}/api/categories`
+      : '/api/categories';
 
-  return data;
+  const res = await fetch(url, { cache: 'no-store' });
+  if (!res.ok) throw new Error('Failed to fetch categories');
+  return res.json();
 }

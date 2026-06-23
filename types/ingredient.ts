@@ -14,3 +14,5 @@ export interface RecipeIngredient {
   id: Ingredient;
   measure: string;
 }
+
+export type IngredientOptionFilter = Pick<Ingredient, '_id' | 'name'>;

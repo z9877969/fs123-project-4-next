@@ -15,21 +15,16 @@ export async function fetchRecipes({
   category,
   ingredient,
 }: SearchFilters): Promise<FetchNotesResponse> {
-  const params: Record<string, string | number> = {
-    perPage: 12,
-  };
+  const params = new URLSearchParams();
 
-  //так як на беку немає перевірки на пусту строку в запиті з фільтрами, то додала умову при якій фільтри до запиту додаються тільки, коли не пусті
-  if (keyword && keyword.trim() !== '') params.keyword = keyword.trim();
-  if (category && category.trim() !== '') params.category = category.trim();
-  if (ingredient && ingredient.trim() !== '')
-    params.ingredient = ingredient.trim();
+  if (keyword && keyword.trim() !== '') params.set('keyword', keyword.trim());
+  if (category && category.trim() !== '') params.set('category', category.trim());
+  if (ingredient && ingredient.trim() !== '') params.set('ingredient', ingredient.trim());
 
-  const { data } = await nextServer.get<FetchNotesResponse>('/recipes', {
-    params,
-  });
-
-  return data;
+  const query = params.toString() ? `?${params.toString()}` : '';
+  const res = await fetch(`/api/recipes${query}`);
+  if (!res.ok) throw new Error('Failed to fetch recipes');
+  return res.json();
 }
 
 // Це для форми add-recipes

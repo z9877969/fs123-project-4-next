@@ -1,13 +1,13 @@
 'use client';
 
 import css from './RecipesList.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import RecipeCard from '../RecipeCard/RecipeCard';
 import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
 import { fetchRecipes } from '@/lib/api/clientApi';
 import { Recipe } from '@/types/recipe';
-// import iziToast from 'izitoast';
 import Filters from '../Filters/Filters';
+import { useFiltersStore } from '@/lib/store/filtersStore';
 
 interface RecipeListProps {
   initialRecipes: Recipe[];
@@ -19,27 +19,43 @@ interface RecipeListProps {
 
 export default function RecipeList({
   initialRecipes,
-  totalPages,
+  totalPages: initialTotalPages,
   totalRecipes,
   searchQuery = '',
   currentCategory = '',
 }: RecipeListProps) {
-  const [recipes, setRecipes] = useState<Recipe[]>(initialRecipes);
+  const recipes = useFiltersStore((state) => state.recipes);
+  const totalPages = useFiltersStore((state) => state.totalPages);
+  const isLoading = useFiltersStore((state) => state.isLoading);
+  const setRecipesData = useFiltersStore((state) => state.setRecipesData);
+
   const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  useEffect(() => {
+    setRecipesData({
+      recipes: initialRecipes,
+      totalRecipes,
+      totalPages: initialTotalPages,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const hasMore = page < totalPages;
 
   const handleLoadMore = async () => {
-    if (isLoading || !hasMore) return;
+    if (isLoadingMore || !hasMore) return;
 
-    setIsLoading(true);
+    setIsLoadingMore(true);
     try {
       const nextPage = page + 1;
-
       const data = await fetchRecipes(nextPage, searchQuery, currentCategory);
 
-      setRecipes((prevRecipes) => [...prevRecipes, ...data.recipes]);
+      setRecipesData({
+        recipes: [...recipes, ...data.recipes],
+        totalRecipes: data.totalRecipes,
+        totalPages: data.totalPages,
+      });
 
       setPage(nextPage);
     } catch (error) {
@@ -51,7 +67,7 @@ export default function RecipeList({
         timeout: 2000,
       });
     } finally {
-      setIsLoading(false);
+      setIsLoadingMore(false);
     }
   };
 
@@ -72,9 +88,9 @@ export default function RecipeList({
         ))}
       </ul>
 
-      {hasMore && (
+      {hasMore && !isLoading && (
         <div className={css.loadMoreWrapper}>
-          <LoadMoreBtn onClick={handleLoadMore} disabled={isLoading} />
+          <LoadMoreBtn onClick={handleLoadMore} disabled={isLoadingMore} />
         </div>
       )}
     </div>
