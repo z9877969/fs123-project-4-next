@@ -5,6 +5,43 @@ import { parse } from 'cookie';
 import { isAxiosError } from 'axios';
 import { logErrorResponse } from '../../_utils/utils';
 
+const applySetCookieToResponse = (
+  response: NextResponse,
+  cookieStore: Awaited<ReturnType<typeof cookies>>,
+  setCookieHeader?: string | string[]
+) => {
+  if (!setCookieHeader) {
+    return;
+  }
+
+  const cookieArray = Array.isArray(setCookieHeader)
+    ? setCookieHeader
+    : [setCookieHeader];
+
+  for (const cookieStr of cookieArray) {
+    const parsed = parse(cookieStr);
+
+    const options = {
+      expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
+      path: parsed.Path,
+      maxAge: parsed['Max-Age'] ? Number(parsed['Max-Age']) : undefined,
+    };
+
+    if (parsed.accessToken) {
+      cookieStore.set('accessToken', parsed.accessToken, options);
+      response.cookies.set('accessToken', parsed.accessToken, options);
+    }
+    if (parsed.refreshToken) {
+      cookieStore.set('refreshToken', parsed.refreshToken, options);
+      response.cookies.set('refreshToken', parsed.refreshToken, options);
+    }
+    if (parsed.sessionId) {
+      cookieStore.set('sessionId', parsed.sessionId, options);
+      response.cookies.set('sessionId', parsed.sessionId, options);
+    }
+  }
+};
+
 export async function GET() {
   try {
     const cookieStore = await cookies();
@@ -16,40 +53,35 @@ export async function GET() {
     }
 
     if (refreshToken) {
-      const apiRes = await api.get('auth/session', {
-        headers: {
-          Cookie: cookieStore.toString(),
-        },
-      });
-
-      const setCookie = apiRes.headers['set-cookie'];
-
-      if (setCookie) {
-        const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
-        for (const cookieStr of cookieArray) {
-          const parsed = parse(cookieStr);
-
-          const options = {
-            expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
-            path: parsed.Path,
-            maxAge: Number(parsed['Max-Age']),
-          };
-
-          if (parsed.accessToken)
-            cookieStore.set('accessToken', parsed.accessToken, options);
-          if (parsed.refreshToken)
-            cookieStore.set('refreshToken', parsed.refreshToken, options);
+      const apiRes = await api.post(
+        '/auth/refresh',
+        {},
+        {
+          headers: {
+            Cookie: cookieStore.toString(),
+          },
         }
-        return NextResponse.json({ success: true }, { status: 200 });
-      }
+      );
+
+      const response = NextResponse.json({ success: true }, { status: 200 });
+      applySetCookieToResponse(
+        response,
+        cookieStore,
+        apiRes.headers['set-cookie']
+      );
+      return response;
     }
-    return NextResponse.json({ success: false }, { status: 200 });
+
+    return NextResponse.json({ success: false }, { status: 401 });
   } catch (error) {
     if (isAxiosError(error)) {
       logErrorResponse(error.response?.data);
-      return NextResponse.json({ success: false }, { status: 200 });
+      return NextResponse.json(
+        { success: false, error: error.message },
+        { status: error.response?.status || 500 }
+      );
     }
     logErrorResponse({ message: (error as Error).message });
-    return NextResponse.json({ success: false }, { status: 200 });
+    return NextResponse.json({ success: false }, { status: 500 });
   }
 }
