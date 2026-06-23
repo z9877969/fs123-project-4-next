@@ -1,5 +1,5 @@
 'use client';
-import iziToast from 'izitoast';
+import { showErrorToast } from '@/lib/utils/toast';
 import { useState } from 'react';
 
 import SelectFilter from '../SelectFilter/SelectFilter';
@@ -46,11 +46,7 @@ function Filters() {
         totalPages: data.totalPages,
       });
     } catch (error) {
-      iziToast.error({
-        title: 'Error',
-        message: 'Failed to fetch filtered recipes.',
-        position: 'topRight',
-      });
+      await showErrorToast('Failed to fetch filtered recipes.');
     } finally {
       setIsLoading(false);
     }
