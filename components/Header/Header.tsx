@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import css from "./Header.module.css";
 import HeaderNav from "./HeaderNav";
@@ -13,14 +12,9 @@ const Header = () => {
           className={css.logoLink}
           prefetch={false}
         >
-          <Image
-            src="/logo.svg"
-            alt=""
-            width={165}
-            height={46}
-            priority
-            className={css.logo}
-          />
+          <svg className={css.logo} aria-hidden="true">
+            <use href="/icons/icons.svg#icon-logo" />
+          </svg>
         </Link>
         <HeaderNav />
       </div>

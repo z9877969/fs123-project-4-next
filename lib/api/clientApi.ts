@@ -64,7 +64,9 @@ export const register = async (data: RegisterRequest): Promise<User> => {
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err?.response?.message || err?.error || 'Registration failed');
+    throw new Error(
+      err?.response?.message || err?.error || 'Registration failed'
+    );
   }
   return res.json();
 };
@@ -99,10 +101,9 @@ export async function fetchRecipes(
 }
 
 export async function fetchRecipeById(recipeId: string): Promise<Recipe> {
-  const { data } = await fetch(`/api/recipes/${recipeId}`).then((res) => {
-    if (!res.ok) throw new Error('Failed to fetch recipe');
-    return res.json();
-  });
+  const { data } = await nextServer.get<{ data: Recipe }>(
+    `/recipes/${recipeId}`
+  );
   return data.data;
 }
 
@@ -120,17 +121,9 @@ export interface RemoveFavoriteResponse {
   };
 }
 
-// export async function fetchRecipeById(recipeId: string): Promise<Recipe> {
-//   const { data } = await fetch(`/api/recipes/${recipeId}`).then((res) => {
-//     if (!res.ok) throw new Error('Failed to fetch recipe');
-//     return res.json();
-//   });
-//   return data.data;
-// }
-
 export const getFavoriteRecipes = async (): Promise<Recipe[]> => {
   const res = await nextServer.get('/recipes/favorites');
-  return res.data.data; // адаптуй під свій envelope
+  return res.data;
 };
 
 export async function addToFavorites(
