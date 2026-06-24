@@ -5,6 +5,7 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
+  max-height: 33px;
 }
 
 .filters__count {
