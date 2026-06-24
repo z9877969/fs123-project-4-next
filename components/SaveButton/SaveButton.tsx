@@ -1,20 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import {
-  getFavoriteRecipes,
   addToFavorites,
   removeFromFavorites,
+  AddFavoriteResponse,
+  RemoveFavoriteResponse,
 } from '@/lib/api/clientApi';
+import { useAuthStore } from '@/lib/store/authStore';
 import AuthModal from '@/components/AuthModal/AuthModal';
 import css from './SaveButton.module.css';
 
-import { useAuthStore } from '@/lib/store/authStore';
-
-type Props = {
-  recipeId: string;
-};
+type Props = { recipeId: string };
 
 const showToast = async (type: 'success' | 'error', message: string) => {
   const { default: iziToast } = await import('izitoast');
@@ -23,24 +21,25 @@ const showToast = async (type: 'success' | 'error', message: string) => {
 };
 
 const SaveButton = ({ recipeId }: Props) => {
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const { user, setUser, isAuthenticated } = useAuthStore();
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const queryClient = useQueryClient();
 
-  const { data: favorites, isLoading: isFavoritesLoading } = useQuery({
-    queryKey: ['favorites'],
-    queryFn: getFavoriteRecipes,
-    enabled: isAuthenticated,
-    staleTime: 60_000,
-  });
+  const favorites = user?.favorites ?? [];
+  const isSaved = favorites.includes(recipeId);
 
-  const isSaved = favorites?.some((r) => r._id === recipeId) ?? false;
-
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending } = useMutation<
+    AddFavoriteResponse | RemoveFavoriteResponse,
+    Error,
+    void
+  >({
     mutationFn: () =>
       isSaved ? removeFromFavorites(recipeId) : addToFavorites(recipeId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['favorites'] });
+      if (!user) return;
+      const updatedFavorites = isSaved
+        ? favorites.filter((id) => id !== recipeId)
+        : [...favorites, recipeId];
+      setUser({ ...user, favorites: updatedFavorites });
       showToast(
         'success',
         isSaved ? 'Removed from favourites' : 'Saved to favourites!'
@@ -59,14 +58,12 @@ const SaveButton = ({ recipeId }: Props) => {
     mutate();
   };
 
-  const isDisabled = isPending || isFavoritesLoading;
-
   return (
     <>
       <button
         className={`${css.saveButton} ${isSaved ? css.saved : ''}`}
         onClick={handleClick}
-        disabled={isDisabled}
+        disabled={isPending}
       >
         {isPending ? (
           <span className={css.spinner} />
@@ -77,7 +74,6 @@ const SaveButton = ({ recipeId }: Props) => {
           </>
         )}
       </button>
-
       {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} />}
     </>
   );
