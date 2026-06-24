@@ -10,7 +10,6 @@ export const nextServer = axios.create({
   // baseURL: BACKEND_URL,
   withCredentials: true,
   headers: {
-    'Content-Type': 'application/json',
     Accept: 'application/json',
   },
 });

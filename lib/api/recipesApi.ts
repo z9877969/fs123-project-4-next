@@ -48,10 +48,8 @@ export async function addRecipe(payload: AddRecipePayload): Promise<Recipe> {
   formData.append('category', payload.category);
   formData.append('ingredients', JSON.stringify(payload.ingredients));
   formData.append('instructions', payload.instructions);
-  if (payload.photo) formData.append('photo', payload.photo);
+  if (payload.photo) formData.append('image', payload.photo);
 
-  const { data } = await nextServer.post<Recipe>('/recipes', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
+  const { data } = await nextServer.post<Recipe>('/recipes', formData);
   return data;
 }

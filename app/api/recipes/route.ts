@@ -51,24 +51,24 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const cookieStore = await cookies();
+    const backendUrl = process.env.NEXT_BACKEND_API_URL;
+    const contentType = request.headers.get('content-type');
 
-    const formData = await request.formData();
-
-    const res = await api.post('/api/recipes', formData, {
+    const response = await fetch(`${backendUrl}/api/recipes`, {
+      method: 'POST',
       headers: {
         Cookie: cookieStore.toString(),
+        ...(contentType && { 'Content-Type': contentType }),
       },
+      body: request.body,
+      // @ts-expect-error duplex is required for streaming body in Node.js fetch
+      duplex: 'half',
     });
 
-    return NextResponse.json(res.data, { status: res.status });
+    const data = await response.json();
+    if (!response.ok) logErrorResponse(data);
+    return NextResponse.json(data, { status: response.status });
   } catch (error) {
-    if (isAxiosError(error)) {
-      logErrorResponse(error.response?.data);
-      return NextResponse.json(
-        { error: error.message, response: error.response?.data },
-        { status: error.status }
-      );
-    }
     logErrorResponse({ message: (error as Error).message });
     return NextResponse.json(
       { error: 'Internal Server Error' },
