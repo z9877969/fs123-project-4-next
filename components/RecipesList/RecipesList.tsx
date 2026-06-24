@@ -31,6 +31,8 @@ export default function RecipeList({
   const isLoading = useFiltersStore((state) => state.isLoading);
   const setRecipesData = useFiltersStore((state) => state.setRecipesData);
 
+  const keyword = useFiltersStore((state) => state.filters.keyword) ?? '';
+
   const [page, setPage] = useState(1);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
@@ -77,7 +79,7 @@ export default function RecipeList({
     <div className={css.container}>
       <div className={css.header}>
         <h1 className={css.title}>
-          {searchQuery ? `Search Results for "${searchQuery}"` : 'Recipes'}
+          {keyword ? `Search Results for "${keyword}"` : 'Recipes'}
         </h1>
         <div className={css.meta}>
           <Filters />
