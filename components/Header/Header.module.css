@@ -3,6 +3,7 @@
 .header {
     background-color: #3d2218;
     width: 100%;
+    z-index: 999;
 }
 
 .inner {

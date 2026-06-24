@@ -36,10 +36,7 @@ const RecipeDetailsClient = () => {
         </div>
         <div className={css.imageWrapper}>
           <Image
-            src={
-              recipe.thumb ||
-              'https://via.placeholder.com/600x400?text=No+Image'
-            }
+            src={recipe.image || '/not-found.jpg'}
             fill
             // sizes="(max-width: 768px) 100vw, 600px"
             alt={recipe.title}
@@ -77,7 +74,7 @@ const RecipeDetailsClient = () => {
             <h3 className={css.infoBoxTitle}>General informations</h3>
             <div className={css.infoItem}>
               <span className={css.infoLabel}>Category:</span>
-              <span className={css.infoValue}>{recipe.category}</span>
+              <span className={css.infoValue}>{recipe.category?.name}</span>
             </div>
             <div className={css.infoItem}>
               <span className={css.infoLabel}>Cooking time:</span>
