@@ -1,13 +1,12 @@
 'use client'
 import css from '@/components/RecipesList/RecipesList.module.css'
-import { useEffect } from "react"; // Прибрали useState
+import { useEffect } from "react";
 import RecipeCard from "@/components/RecipeCard/RecipeCard"; 
 import LoadMoreBtn from '@/components/LoadMoreBtn/LoadMoreBtn';
 import { fetchRecipes } from '@/lib/api/clientApi';
 import { Recipe } from '@/types/recipe';
 import 'izitoast/dist/css/iziToast.min.css';
 
-// 1. Обов'язково імпортуємо стор (перевір шлях, можливо він у тебе '@/store/filtersStore')
 import { useFiltersStore } from '@/lib/store/filtersStore'; 
 
 interface RecipeListProps {
@@ -26,7 +25,6 @@ export default function RecipesList({
   currentCategory = "",
 }: RecipeListProps) {
 
-  // 2. Дістаємо всі необхідні дані та функції глобально з Zustand
   const { 
     recipes, 
     totalRecipes, 
@@ -39,17 +37,14 @@ export default function RecipesList({
     setIsLoading 
   } = useFiltersStore();
 
-  // 3. Гідратація: записуємо дані від сервера у стор при першому завантаженні
   useEffect(() => {
     setRecipesData({
       recipes: initialRecipes,
       totalRecipes: initialTotalRecipes,
       totalPages: initialTotalPages,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialRecipes, initialTotalRecipes, initialTotalPages]);
 
-  // Змінні для відображення, щоб екран не був порожнім доки спрацьовує useEffect
   const displayRecipes = recipes.length > 0 ? recipes : initialRecipes;
   const displayTotal = totalRecipes > 0 || recipes.length > 0 ? totalRecipes : initialTotalRecipes;
   const displayTotalPages = totalPages > 0 || recipes.length > 0 ? totalPages : initialTotalPages;
@@ -63,24 +58,20 @@ export default function RecipesList({
     try {
       const nextPage = page + 1;
       
-      // 4. Робимо запит до API з поточними фільтрами ЗІ СТОРУ
       const data = await fetchRecipes(
         nextPage, 
         filters.keyword || searchQuery, 
         filters.category || currentCategory
       );
       
-      // 5. Об'єднуємо старі рецепти з новими і записуємо в стор
       setRecipesData({
         recipes: [...displayRecipes, ...data.recipes],
         totalRecipes: data.totalRecipes,
         totalPages: data.totalPages,
       });
       
-      // 6. Оновлюємо сторінку в сторі
       setPage(nextPage);
     } catch (error) {
-        // Динамічний імпорт iziToast
         const iziToast = (await import("izitoast")).default;
         iziToast.error({
           title: "Error",

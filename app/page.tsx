@@ -1,6 +1,5 @@
 import RecipeList from '@/components/RecipesList/RecipesList';
 import Hero from '@/components/Hero/Hero';
-import RecipesClient from './pageClient';
 import { fetchRecipesServer } from '@/lib/api/serverApi';
 
 export default async function App() {
