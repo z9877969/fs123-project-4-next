@@ -52,12 +52,11 @@ export async function POST(request: NextRequest) {
   try {
     const cookieStore = await cookies();
 
-    const body = await request.json();
+    const formData = await request.formData();
 
-    const res = await api.post('/recipes', body, {
+    const res = await api.post('/api/recipes', formData, {
       headers: {
         Cookie: cookieStore.toString(),
-        'Content-Type': 'application/json',
       },
     });
 
