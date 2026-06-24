@@ -1,57 +1,92 @@
+/* ─── Base (mobile-first, від 320px) ───────────────────────────────────── */
 .container {
   max-width: 1225px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 48px 16px;
+  font-family: var(--font-montserrat), sans-serif;
 }
 
 .header {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 32px;
   margin-bottom: 32px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 600;
+  margin: 0 auto;
+  color: black;
 }
 
 .imageWrapper {
   position: relative;
   width: 100%;
-  height: 624px;
+  height: 276px;
   background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
   border-radius: 8px;
   overflow: hidden;
 }
 
 .image {
-  width: 100%;
-  object-fit: contain;
-  /* flex-shrink: 0; */
+  object-fit: cover;
 }
 
-.info {
+/* content — одна колонка, sidebar зверху */
+.content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 30px;
+  gap: 24px;
 }
 
-.title {
-  font-size: 48px;
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.infoBox {
+  background: #faf3e0;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.infoBoxTitle {
+  font-size: 24px;
   font-weight: 600;
-  line-height: 110%;
-  margin: 0;
   color: black;
+  margin: 0;
 }
 
-.content {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 40px;
+.infoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 16px;
 }
 
-@media (max-width: 768px) {
-  .content {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
+.infoLabel {
+  font-weight: 600;
+  color: black;
+  white-space: nowrap;
+}
+
+.infoValue {
+  font-weight: 400;
+  line-height: 1.55;
+  color: #666;
+  text-align: right;
 }
 
 .mainContent {
@@ -71,8 +106,6 @@
   font-weight: 600;
   color: black;
   margin: 0;
-  /* padding-bottom: 10px;
-  border-bottom: 2px solid #f0f0f0; */
 }
 
 .description {
@@ -89,7 +122,7 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 18px;
 }
 
 .ingredientItem {
@@ -113,48 +146,104 @@
   color: black;
   white-space: pre-wrap;
   word-wrap: break-word;
-  margin: 0;
-  margin-bottom: 28px;
+  margin-top: 24px;
 }
 
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+/* ─── Tablet (від 768px) ────────────────────────────────────────────────── */
+/* sidebar стає рядком: infoBox зліва, SaveButton справа */
+@media (min-width: 768px) {
+  .container {
+    padding: 48px 32px;
+  }
+
+  .header {
+    flex-direction: column;
+  }
+
+  .title {
+    font-size: 48px;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .imageWrapper {
+    height: 624px;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .sidebar > :last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 240px;
+    height: 56px;
+    align-self: flex-start;
+  }
+
+  .infoBox {
+    padding: 24px;
+    flex: 1;
+    min-width: 0;
+  }
 }
 
-.infoBox {
-  background: #faf3e0;
-  min-width: 393px;
-  border-radius: 16px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
+/* ─── Desktop (від 1440px) ──────────────────────────────────────────────── */
+@media (min-width: 1440px) {
+  .container {
+    padding: 48px 0;
+  }
 
-.infoBoxTitle {
-  font-size: 24px;
-  font-weight: 600;
-  color: black;
-  margin: 0;
-}
+  .title {
+    font-size: 48px;
+  }
 
-.infoItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 16px;
-  /* color: #555; */
-}
+  .imageWrapper {
+    aspect-ratio: auto;
+    height: 624px;
+  }
 
-.infoLabel {
-  font-weight: 600;
-  color: black;
-}
+  .image {
+    object-fit: contain;
+  }
 
-.infoValue {
-  font-weight: 400;
-  line-height: 1.55;
-  color: #666;
+  .content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas: 'main sidebar';
+    gap: 24px;
+    align-items: start;
+  }
+
+  .sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .sidebar > :last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: none;
+    width: 100%;
+    height: 56px;
+    align-self: auto;
+  }
+
+  .infoBox {
+    flex: none;
+    min-width: 0;
+    padding: 24px;
+  }
+
+  .mainContent {
+    grid-area: main;
+  }
 }

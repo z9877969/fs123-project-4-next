@@ -1,6 +1,10 @@
 /* ===== Header (mobile-first, 320+ → 393 → 768 → 1440) ===== */
 
 .header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
     background-color: #3d2218;
     width: 100%;
     z-index: 999;
