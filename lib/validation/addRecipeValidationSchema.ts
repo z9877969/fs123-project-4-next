@@ -8,9 +8,8 @@ export const addRecipeValidationSchema = Yup.object({
     .max(360, 'Cooking time cannot exceed 360 minutes')
     .required('Cooking time is required'),
   calories: Yup.number()
+    .transform((value, originalValue) => (originalValue === '' ? null : value))
     .nullable()
-    .default(null)
-    .transform((value, originalValue) => (originalValue ? value : null))
     .integer('Calories must be a whole number')
     .min(1, 'Calories must be at least 1')
     .max(10000, 'Calories cannot exceed 10000')

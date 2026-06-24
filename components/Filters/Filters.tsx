@@ -69,8 +69,6 @@ function Filters() {
     updateFilters({ keyword: '', category: '', ingredient: '' });
   };
 
-  console.log('filters store: ', filters);
-
   return (
     <>
       <div className={css.filters__container}>

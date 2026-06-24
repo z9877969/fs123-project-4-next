@@ -46,7 +46,7 @@ const HeaderNav = () => {
     }
   };
 
-  const userName = user?.username || user?.email?.split("@")[0] || "";
+  const userName = user?.name || user?.email?.split("@")[0] || "";
   const avatarInitial = userName.charAt(0).toUpperCase() || "U";
 
   const isActive = (href: string) => {

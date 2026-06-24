@@ -1,4 +1,4 @@
-import { FilterParams } from '@/types/recipes';
+import { SearchFilters as FilterParams } from '@/types/filters';
 import { useQuery } from '@tanstack/react-query';
 import { fetchRecipes } from '@/lib/api/recipesApi';
 

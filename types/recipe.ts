@@ -9,11 +9,11 @@ export interface Recipe {
   area?: string;
   instructions: string;
   description: string;
-  thumb?: string;
+  thumb: string;
   time: number;
   calories: number;
   ingredients: RecipeIngredient[];
-  image: string;
+  image?: string;
   createdAt: string;
   updatedAt: string;
 }

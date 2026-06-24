@@ -78,7 +78,7 @@ export default function RecipeCard({
   const shouldShowActive =
     variant === 'favorite' || (isAuthenticated && isFavorite);
 
-  const imageSrc = recipe.image || recipe.thumb;
+  const imageSrc = recipe.thumb || recipe.image;
 
   return (
     <>

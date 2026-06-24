@@ -101,7 +101,7 @@ export default function AddRecipeForm({
             title: values.recipeTitle,
             description: values.recipeDescription,
             time: Number(values.cookingTime),
-            calories: Number(values.calories),
+            calories: values.calories !== '' ? Number(values.calories) : undefined,
             category: values.category,
             ingredients: values.ingredientsList.map(({ id, measure }) => ({
               id,

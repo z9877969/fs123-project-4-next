@@ -7,11 +7,11 @@ import { Metadata } from "next";
 export async function generateMetadata(): Promise<Metadata> {
   const user = await getServerMe();
   return {
-    title: `User: ${user.username}`,
-    description: `Profile page of ${user.username} with email ${user.email}`,
+    title: `User: ${user.name}`,
+    description: `Profile page of ${user.name} with email ${user.email}`,
     openGraph: {
-      title: `User: ${user.username}`,
-      description: `Profile page of ${user.username} with email ${user.email}`,
+      title: `User: ${user.name}`,
+      description: `Profile page of ${user.name} with email ${user.email}`,
       url: `https://notehub.com/profile`,
       siteName: "NoteHub",
       images: [
@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
           width: 1200,
           height: 630,
-          alt: `${user.username}'s page`,
+          alt: `${user.name}'s page`,
         },
       ],
       type: "article",
@@ -48,7 +48,7 @@ export default async function Profile() {
           />
         </div>
         <div className={css.profileInfo}>
-          <p>Username: {user.username}</p>
+          <p>Username: {user.name}</p>
           <p>Email: {user.email}</p>
         </div>
       </div>
