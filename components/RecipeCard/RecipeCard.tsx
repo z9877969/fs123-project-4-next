@@ -78,17 +78,21 @@ export default function RecipeCard({
   const shouldShowActive =
     variant === 'favorite' || (isAuthenticated && isFavorite);
 
+  const imageSrc = recipe.image || recipe.thumb;
+
   return (
     <>
       <article className={css.card}>
-      {recipe.thumb ? <Image
-          src={recipe.thumb}
-          alt={recipe.title}
-          width={337}
-          height={230}
-          className={css.image}
-        /> : <></>}
-        
+        {imageSrc && (
+          <Image
+            src={imageSrc}
+            alt={recipe.title}
+            width={337}
+            height={230}
+            className={css.image}
+          />
+        )}
+
         <div className={css.content}>
           <div className={css.header}>
             <h3 className={css.title}>{recipe.title}</h3>
