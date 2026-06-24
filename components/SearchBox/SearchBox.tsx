@@ -17,7 +17,6 @@ function SearchBox({ onSearch, isLoading }: SearchBoxProps) {
 
     const formData = new FormData(event.currentTarget);
     const query = (formData.get('query') as string) || '';
-    console.log('Serch: ', query);
 
     if (!query.trim()) {
       setError('Please enter a recipe name to search!');

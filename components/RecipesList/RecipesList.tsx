@@ -32,6 +32,10 @@ export default function RecipeList({
   const setRecipesData = useFiltersStore((state) => state.setRecipesData);
 
   const keyword = useFiltersStore((state) => state.filters.keyword) ?? '';
+  const filters = useFiltersStore((state) => state.filters);
+  const hasActiveFilters = Boolean(
+    filters?.keyword || filters?.category || filters?.ingredient
+  );
 
   const [page, setPage] = useState(1);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -88,7 +92,7 @@ export default function RecipeList({
 
       {isLoading ? (
         <Loader text="Loading recipes..." variant="section" size="large" />
-      ) : recipes.length === 0 ? (
+      ) : recipes.length === 0 && hasActiveFilters ? (
         <SearchEmptyState />
       ) : (
         <ul className={css.grid}>
