@@ -70,7 +70,9 @@ const SaveButton = ({ recipeId }: Props) => {
         ) : (
           <>
             <span>{isSaved ? 'Unsave' : 'Save'}</span>
-            <span className={css.saveMark}>{isSaved ? '✕' : '✓'}</span>
+            <svg className={isSaved ? css.saveIconFilled : css.saveIcon}>
+              <use href={'/icons/icons.svg#icon-save'} />
+            </svg>
           </>
         )}
       </button>

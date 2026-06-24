@@ -15,7 +15,10 @@ const RecipeNotFound = () => {
       <h1 className={css.code}>404</h1>
       <p className={css.message}>Recipe not found</p>
       <Link href="/" className={css.button}>
-        ← Back to Home
+        <svg className={css.arrow}>
+          <use href={'/icons/icons.svg#icon-back-to-home'} />
+        </svg>
+        Back to Home
       </Link>
     </div>
   );
