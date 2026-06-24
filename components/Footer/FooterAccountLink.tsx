@@ -55,7 +55,9 @@ const FooterAccountLink = () => {
               aria-label="Close"
               onClick={() => setIsOpen(false)}
             >
-              ×
+              <svg className={css.modalCloseIcon} aria-hidden="true">
+                <use href="/icons/icons.svg#icon-close-modal" />
+              </svg>
             </button>
             <p className={css.modalTitle}>
               Sign in or create an account to access your profile.

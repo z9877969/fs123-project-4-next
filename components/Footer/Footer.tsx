@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import css from "./Footer.module.css";
 import FooterAccountLink from "./FooterAccountLink";
@@ -13,13 +12,9 @@ const Footer = () => {
           className={css.logoLink}
           prefetch={false}
         >
-          <Image
-            src="/logo.svg"
-            alt=""
-            width={165}
-            height={46}
-            className={css.logo}
-          />
+          <svg className={css.logo} aria-hidden="true">
+            <use href="/icons/icons.svg#icon-logo" />
+          </svg>
         </Link>
 
         <p className={css.copyright}>
@@ -29,7 +24,7 @@ const Footer = () => {
         <nav aria-label="Footer navigation">
           <ul className={css.links}>
             <li className={css.item}>
-              <Link href="/recipes/filter/all" className={css.link} prefetch={false}>
+              <Link href="/" className={css.link} prefetch={false}>
                 Recipes
               </Link>
             </li>

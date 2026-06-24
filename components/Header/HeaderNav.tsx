@@ -1,17 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import css from "./HeaderNav.module.css";
 import { useAuthStore } from "@/lib/store/authStore";
 import { logout } from "@/lib/api/clientApi";
-import LogoutModal from "../LogoutModal/Modal"
 
 const HeaderNav = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const panelId = useId();
@@ -26,7 +23,7 @@ const HeaderNav = () => {
   }, [pathname]);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (isOpen === false) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const handleKey = (event: KeyboardEvent) => {
@@ -45,7 +42,6 @@ const HeaderNav = () => {
     } finally {
       clearIsAuthenticated();
       setIsOpen(false);
-      setIsLogoutModalOpen(false);
       router.push("/");
     }
   };
@@ -53,24 +49,31 @@ const HeaderNav = () => {
   const userName = user?.username || user?.email?.split("@")[0] || "";
   const avatarInitial = userName.charAt(0).toUpperCase() || "U";
 
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(href + "/");
+  };
+
+  const linkClass = (href: string) =>
+    `${css.link} ${isActive(href) ? css.linkActive : ""}`;
+
+  const ctaClass = (href: string) =>
+    `${css.link} ${css.cta} ${isActive(href) ? css.linkActive : ""}`;
+
   const guestLinks = (
     <>
       <li className={css.item}>
-        <Link href="/recipes/filter/all" className={css.link} prefetch={false}>
+        <Link href="/" className={linkClass("/")} prefetch={false}>
           Recipes
         </Link>
       </li>
       <li className={css.item}>
-        <Link href="/auth/login" className={css.link} prefetch={false}>
+        <Link href="/auth/login" className={linkClass("/auth/login")} prefetch={false}>
           Log in
         </Link>
       </li>
       <li className={css.item}>
-        <Link
-          href="/auth/register"
-          className={`${css.link} ${css.cta}`}
-          prefetch={false}
-        >
+        <Link href="/auth/register" className={ctaClass("/auth/register")} prefetch={false}>
           Register
         </Link>
       </li>
@@ -80,55 +83,30 @@ const HeaderNav = () => {
   const authLinks = (
     <>
       <li className={css.item}>
-        <Link href="/recipes/filter/all" className={css.link} prefetch={false}>
+        <Link href="/" className={linkClass("/")} prefetch={false}>
           Recipes
         </Link>
       </li>
       <li className={css.item}>
-        <Link href="/profile" className={css.link} prefetch={false}>
+        <Link href="/profile" className={linkClass("/profile")} prefetch={false}>
           My Profile
         </Link>
       </li>
       <li className={css.item}>
-        <Link
-          href="/add-recipe"
-          className={`${css.link} ${css.cta}`}
-          prefetch={false}
-        >
+        <Link href="/add-recipe" className={ctaClass("/add-recipe")} prefetch={false}>
           Add Recipe
         </Link>
       </li>
       <li className={`${css.item} ${css.userItem}`}>
         <span className={css.user}>
-          {user?.avatar ? (
-            <Image
-              src={user.avatar}
-              alt=""
-              width={32}
-              height={32}
-              className={css.avatar}
-            />
-          ) : (
-            <span className={css.avatar} aria-hidden="true">
-              {avatarInitial}
-            </span>
-          )}
+          <span className={css.avatar} aria-hidden="true">{avatarInitial}</span>
           <span className={css.userName}>{userName}</span>
         </span>
         <span className={css.divider} aria-hidden="true" />
-        <button
-          type="button"
-          onClick={() => setIsLogoutModalOpen(true)}
-          className={css.iconButton}
-          aria-label="Log out"
-        >
-          <Image
-            src="/icons/logout.svg"
-            alt=""
-            width={24}
-            height={24}
-            aria-hidden="true"
-          />
+        <button type="button" onClick={handleLogout} className={css.iconButton} aria-label="Log out">
+          <svg className={css.icon24} aria-hidden="true">
+            <use href="/icons/icons.svg#icon-logout" />
+          </svg>
         </button>
       </li>
     </>
@@ -144,15 +122,11 @@ const HeaderNav = () => {
         aria-label={isOpen ? "Close menu" : "Open menu"}
         aria-expanded={isOpen}
         aria-controls={panelId}
-        onClick={() => setIsOpen((value) => !value)}
+        onClick={() => setIsOpen((value) => (value ? false : true))}
       >
-        <Image
-          src={isOpen ? "/icons/close.svg" : "/icons/burger.svg"}
-          alt=""
-          width={32}
-          height={32}
-          aria-hidden="true"
-        />
+        <svg className={css.icon32} aria-hidden="true">
+          <use href={isOpen ? "/icons/icons.svg#icon-close-modal" : "/icons/icons.svg#icon-burger"} />
+        </svg>
       </button>
 
       <ul className={css.desktopList}>{links}</ul>
@@ -163,12 +137,6 @@ const HeaderNav = () => {
       >
         <ul className={css.mobileList}>{links}</ul>
       </div>
-
-      <LogoutModal
-        isOpen={isLogoutModalOpen}
-        onClose={() => setIsLogoutModalOpen(false)}
-        onConfirm={handleLogout}
-      />
     </nav>
   );
 };

@@ -43,8 +43,7 @@
 .copyright {
     margin: 0;
     color: #ffffff;
-    font-family: var(--font-montserrat), "Montserrat", -apple-system,
-        BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
     font-weight: 400;
     font-size: 12px;
     line-height: 14.63px;
@@ -72,8 +71,6 @@
     align-items: center;
     justify-content: center;
     color: #ffffff;
-    font-family: var(--font-montserrat), "Montserrat", -apple-system,
-        BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     font-weight: 600;
     font-size: 16px;
     line-height: 19.5px;
@@ -184,7 +181,6 @@ button.link {
 
 .modalTitle {
     margin: 0;
-    font-family: var(--font-montserrat), "Montserrat", sans-serif;
     font-weight: 600;
     font-size: 16px;
     line-height: 1.4;
@@ -209,7 +205,6 @@ button.link {
     border: 1px solid #ffffff;
     background: transparent;
     color: #ffffff;
-    font-family: var(--font-montserrat), "Montserrat", sans-serif;
     font-weight: 600;
     font-size: 16px;
     line-height: 19.5px;
@@ -236,4 +231,38 @@ button.link {
 .modalActionPrimary:focus-visible {
     outline: 2px solid #ffffff;
     outline-offset: 2px;
+}
+
+@media (min-width: 768px) and (max-width: 1439px) {
+    .inner {
+        gap: 34px;
+    }
+    .link {
+        padding: 0;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1439px) {
+    .inner {
+        gap: 34px;
+    }
+    .link {
+        padding: 0;
+    }
+}
+
+.logo {
+    width: 165px;
+    height: 46px;
+    fill: currentColor;
+    color: #ffffff;
+    display: block;
+}
+
+.modalCloseIcon {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    color: #ffffff;
 }

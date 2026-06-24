@@ -50,3 +50,11 @@
         padding: 14px 108px;
     }
 }
+
+.logo {
+    width: 165px;
+    height: 46px;
+    fill: currentColor;
+    color: #ffffff;
+    display: block;
+}
