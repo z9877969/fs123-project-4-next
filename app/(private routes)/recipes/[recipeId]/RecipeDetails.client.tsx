@@ -21,12 +21,7 @@ const RecipeDetailsClient = () => {
   });
 
   if (isLoading) return <p>Loading, please wait...</p>;
-
   if (error || !recipe) return <p>Something went wrong.</p>;
-
-  // const formattedDate = recipe.updatedAt
-  //   ? `Updated at: ${recipe.updatedAt}`
-  //   : `Created at: ${recipe.createdAt}`;
 
   return (
     <div className={css.container}>
@@ -46,6 +41,27 @@ const RecipeDetailsClient = () => {
       </div>
 
       <div className={css.content}>
+        <aside className={css.sidebar}>
+          <div className={css.infoBox}>
+            <h3 className={css.infoBoxTitle}>General informations</h3>
+            <div className={css.infoItem}>
+              <span className={css.infoLabel}>Category:</span>
+              <span className={css.infoValue}>{recipe.category}</span>
+            </div>
+            <div className={css.infoItem}>
+              <span className={css.infoLabel}>Cooking time:</span>
+              <span className={css.infoValue}>{recipe.time} minutes</span>
+            </div>
+            <div className={css.infoItem}>
+              <span className={css.infoLabel}>Calorie content:</span>
+              <span className={css.infoValue}>
+                Approx. {recipe.calories || '~'} kcal per serving
+              </span>
+            </div>
+          </div>
+          <SaveButton recipeId={recipeId} />
+        </aside>
+
         <div className={css.mainContent}>
           <section className={css.section}>
             <h2 className={css.sectionTitle}>About recipe</h2>
