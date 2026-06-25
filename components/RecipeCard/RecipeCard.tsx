@@ -80,6 +80,8 @@ export default function RecipeCard({
 
   const imageSrc = recipe.thumb || recipe.image;
 
+  const [loadingLink, setLoadingLink] = useState(false);
+
   return (
     <>
       <article className={css.card}>
@@ -110,8 +112,20 @@ export default function RecipeCard({
             </span>
           </div>
           <div className={css.actions}>
-            <Link href={`/recipes/${recipeId}`} className={css.learnMore}>
-              Learn More
+            <Link
+              href={`/recipes/${recipeId}`}
+              className={css.learnMore}
+              onClick={() => setLoadingLink(true)}
+            >
+              {loadingLink ? (
+                <div className={css.dots}>
+                  <span />
+                  <span />
+                  <span />
+                </div>
+              ) : (
+                'Learn More'
+              )}
             </Link>
             {variant !== 'own' && (
               <button

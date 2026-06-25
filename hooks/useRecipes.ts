@@ -1,8 +1,8 @@
-import { SearchFilters as FilterParams } from '@/types/filters';
+import { SearchFilters } from '@/types/filters';
 import { useQuery } from '@tanstack/react-query';
 import { fetchRecipes } from '@/lib/api/recipesApi';
 
-export function useRecipes(filters: FilterParams) {
+export function useRecipes(filters: SearchFilters) {
   return useQuery({
     queryKey: ['recipes', filters],
     queryFn: () => fetchRecipes(filters),
