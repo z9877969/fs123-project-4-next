@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { parse } from 'cookie';
 import { checkServerSession } from './lib/api/serverApi';
 
-const privateRoutes = ['/profile', '/recipes/filter'];
+const privateRoutes = ['/profile/:path*', '/recipes/filter', '/add-recipe'];
 const publicRoutes = ['/sign-in', '/sign-up'];
 
 export async function proxy(request: NextRequest) {
@@ -89,5 +89,6 @@ export const config = {
     '/sign-in',
     '/sign-up',
     '/recipes/filter/:path*',
+    '/add-recipe'
   ],
 };
