@@ -33,13 +33,6 @@ function Filters() {
       };
       const data = await fetchRecipes(query);
 
-      console.log('--- РЕЗУЛЬТАТ ЗАПИТУ З ФІЛЬТРАМИ ---', {
-        'parametrs sent': query,
-        'sorted recipes': data,
-        'recipes store': 'useFiltersStore((state) => state.recipes)',
-        'recipes amount': 'useFiltersStore((state) => state.totalRecipes)',
-      });
-
       setRecipesData({
         recipes: data.recipes,
         totalRecipes: data.totalRecipes,
@@ -67,6 +60,13 @@ function Filters() {
   const handleReset = () => {
     clearFilters();
     updateFilters({ keyword: '', category: '', ingredient: '' });
+
+    const searchForm = document.getElementById(
+      'search__recipes__form'
+    ) as HTMLFormElement;
+    if (searchForm) {
+      searchForm.reset();
+    }
   };
 
   return (

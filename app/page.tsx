@@ -3,13 +3,12 @@ import Hero from '@/components/Hero/Hero';
 import { fetchRecipesServer } from '@/lib/api/serverApi';
 
 export default async function App() {
-  
   // 2. Робимо запит до бекенду НА СЕРВЕРІ перед тим, як віддати сторінку
   const initialData = await fetchRecipesServer({
     page: 1,
     perPage: 12,
-    search: '',     // За замовчуванням порожньо
-    category: '',   // За замовчуванням порожньо
+    search: '', // За замовчуванням порожньо
+    category: '', // За замовчуванням порожньо
   });
 
   return (

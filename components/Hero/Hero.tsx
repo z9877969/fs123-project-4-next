@@ -27,8 +27,6 @@ function Hero() {
         ingredient: filters.ingredient,
       });
 
-      console.log('--- РЕЗУЛЬТАТ ПОИСКА HERO ---', data);
-
       setRecipesData({
         recipes: data.recipes,
         totalRecipes: data.totalRecipes,

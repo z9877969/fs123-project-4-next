@@ -9,6 +9,7 @@ import { Recipe } from '@/types/recipe';
 import Filters from '../Filters/Filters';
 import { useFiltersStore } from '@/lib/store/filtersStore';
 import Loader from '../Loader/Loader';
+import SearchEmptyState from '../SearchEmptyState/SearchEmptyState';
 
 interface RecipeListProps {
   initialRecipes: Recipe[];
@@ -29,6 +30,12 @@ export default function RecipeList({
   const totalPages = useFiltersStore((state) => state.totalPages);
   const isLoading = useFiltersStore((state) => state.isLoading);
   const setRecipesData = useFiltersStore((state) => state.setRecipesData);
+
+  const keyword = useFiltersStore((state) => state.filters.keyword) ?? '';
+  const filters = useFiltersStore((state) => state.filters);
+  const hasActiveFilters = Boolean(
+    filters?.keyword || filters?.category || filters?.ingredient
+  );
 
   const [page, setPage] = useState(1);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -75,7 +82,9 @@ export default function RecipeList({
   return (
     <div className={css.container}>
       <div className={css.header}>
-        <h1 className={css.title}>Recipes</h1>
+        <h1 className={css.title}>
+          {keyword ? `Search Results for "${keyword}"` : 'Recipes'}
+        </h1>
         <div className={css.meta}>
           <Filters />
         </div>
@@ -83,6 +92,8 @@ export default function RecipeList({
 
       {isLoading ? (
         <Loader text="Loading recipes..." variant="section" size="large" />
+      ) : recipes.length === 0 && hasActiveFilters ? (
+        <SearchEmptyState />
       ) : (
         <ul className={css.grid}>
           {recipes.map((recipe) => (
