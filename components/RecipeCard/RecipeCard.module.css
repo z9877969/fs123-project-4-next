@@ -30,7 +30,7 @@
   font-size: 20px;
   font-weight: 700;
   line-height: 1.2;
-  min-height: 48px;
+  min-height: 58px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -199,5 +199,33 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+.dots {
+  display: flex;
+  gap: 4px;
+}
+
+.dots span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: bounce 0.8s infinite alternate;
+}
+
+.dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  to {
+    transform: translateY(-4px);
+    opacity: 0.5;
   }
 }
