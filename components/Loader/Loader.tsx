@@ -10,7 +10,6 @@ interface LoaderProps {
 }
 
 export default function Loader({
-  text = 'Loading...',
   variant = 'section',
   size = 'medium',
 }: LoaderProps) {
@@ -21,7 +20,7 @@ export default function Loader({
       aria-live="polite"
     >
       <span className={`${css.loader} ${css[size]}`} />
-      {variant !== 'button' && <span className={css.text}>{text}</span>}
+      {variant !== 'button'}
     </div>
   );
 }

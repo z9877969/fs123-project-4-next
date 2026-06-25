@@ -33,12 +33,12 @@ function Filters() {
       };
       const data = await fetchRecipes(query);
 
-      console.log('--- РЕЗУЛЬТАТ ЗАПИТУ З ФІЛЬТРАМИ ---', {
-        'parametrs sent': query,
-        'sorted recipes': data,
-        'recipes store': 'useFiltersStore((state) => state.recipes)',
-        'recipes amount': 'useFiltersStore((state) => state.totalRecipes)',
-      });
+      // console.log('--- РЕЗУЛЬТАТ ЗАПИТУ З ФІЛЬТРАМИ ---', {
+      //   'parametrs sent': query,
+      //   'sorted recipes': data,
+      //   'recipes store': 'useFiltersStore((state) => state.recipes)',
+      //   'recipes amount': 'useFiltersStore((state) => state.totalRecipes)',
+      // });
 
       setRecipesData({
         recipes: data.recipes,

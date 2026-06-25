@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import SaveButton from '@/components/SaveButton/SaveButton';
+import Loader from '@/components/Loader/Loader';
 
 const RecipeDetailsClient = () => {
   const { recipeId } = useParams<{ recipeId: string }>();
@@ -20,7 +21,10 @@ const RecipeDetailsClient = () => {
     refetchOnMount: false,
   });
 
-  if (isLoading) return <p>Loading, please wait...</p>;
+  if (isLoading) return <Loader
+                  variant="section"
+                  size="large"
+                />;
   if (error || !recipe) return <p>Something went wrong.</p>;
 
   return (
