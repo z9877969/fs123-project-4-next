@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍲 Tasteorama (Recipe Sharing Platform)
 
-## Getting Started
+## 📖 About the Project
+**Tasteorama** is a modern web application for finding, saving, and creating culinary recipes. 
 
-First, run the development server:
+**Problem it solves:** The project helps users easily find meal ideas by name, category, or ingredients. Thanks to the authentication system, users can create their own digital cookbook (save favorite recipes) and share their own culinary masterpieces with detailed instructions, photos, and calorie calculations.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 Technologies Used
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Frontend:
+* **Framework:** Next.js 15 (App Router)
+* **Library:** React (using Server and Client Components)
+* **Styling:** CSS Modules, responsive and fluid layout (Mobile-First)
+* **Style Normalizer:** `modern-normalize`
+* **Image Optimization:** `next/image`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### State & Data Management:
+* **Global State:** Zustand
+* **API & Caching:** React Query (TanStack Query)
+* **HTTP Client:** Axios (with configured Interceptors)
 
-## Learn More
+### Form Handling:
+* **Form Management:** Formik
+* **Data Validation:** Yup
 
-To learn more about Next.js, take a look at the following resources:
+### Other:
+* **Routing:** Protection of private and public routes
+* **Notifications:** `iziToast` for displaying errors and statuses
+* **SEO:** Dynamic metadata generation (`generateMetadata`) and OG tags
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ✨ Core Features
 
-## Deploy on Vercel
+### 📱 UI / UX & Responsiveness
+* **Mobile-first approach:** Fluid layout from 320px, responsive adaptation for 393px, 768px (Tablet), and 1440px (Desktop).
+* Interactive elements feature hover effects and cursor changes.
+* Global error pages (`error.tsx`, `not-found.tsx`).
+* Global loading indicators (Loaders) during API requests.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 🔐 Authentication & Routing
+* **Public routes:** Registration, Login.
+* **Private routes:** Add Recipe, Profile (own recipes and favorites).
+* **Global routes:** Home Page, Recipe Details (with restricted functionality for unauthenticated users).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 📋 Pages & Capabilities
+1. **Main Page:**
+   * Search recipes by keyword.
+   * Filter by category and ingredient.
+   * Pagination via "Load More" button.
+2. **Recipe View Page:**
+   * Detailed information, instructions, ingredients, calorie count.
+   * Ability to add/remove from favorites.
+3. **Profile Page:**
+   * View and manage personal added recipes.
+   * View favorite recipes list.
+4. **Add Recipe Page:**
+   * Dynamic form with validation.
+   * Dish image upload (preview).
+   * Dynamic addition/removal of ingredients list.
