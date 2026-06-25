@@ -1,4 +1,3 @@
-import { nextServer } from './api';
 import { cookies } from 'next/headers';
 import { User } from '@/types/user';
 import { FetchRecipesResponse } from './clientApi';
@@ -63,7 +62,7 @@ export const getServerMe = async (): Promise<User> => {
   const cookieStore = await cookies();
 
   try {
-    const { data } = await nextServer.get('/users/current', {
+    const { data } = await api.get('/users/current', {
       headers: {
         Cookie: cookieStore.toString(),
       },
@@ -74,7 +73,7 @@ export const getServerMe = async (): Promise<User> => {
       try {
         await checkServerSession(cookieStore.toString());
 
-        const { data } = await nextServer.get('/users/current', {
+        const { data } = await api.get('/users/current', {
           headers: {
             Cookie: cookieStore.toString(),
           },
